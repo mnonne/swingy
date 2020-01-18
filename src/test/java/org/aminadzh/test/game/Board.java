@@ -25,12 +25,12 @@ public class Board extends JPanel {
     private Timer timer;
 
     public Board() {
-        initBoard();
-        gameInit();
+//        initBoard();
+//        gameInit();
     }
 
-    private void initBoard() {
-        addKeyListener(new TAdapter());
-    }
+//    private void initBoard() {
+//        addKeyListener(new TAdapter());
+//    }
 
 }
