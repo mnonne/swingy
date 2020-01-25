@@ -17,6 +17,8 @@ public class GUIBoard extends JPanel implements Board {
     private int height;
     private Color bgColor;
 
+    private GUIView tile;
+
     private ArrayList<GUIView> drawables;
 
     public GUIBoard(int posX, int posY, int width, int height, Color bgColor) {
@@ -26,6 +28,8 @@ public class GUIBoard extends JPanel implements Board {
         this.height = height;
         this.bgColor = bgColor;
         setFocusable(true);
+
+        tile = new GUIView("assets/rpg-pack/tiles/generic-rpg-tile32.png", 0, 0, 32, 46);
         drawables = new ArrayList<>();
     }
 
@@ -44,9 +48,15 @@ public class GUIBoard extends JPanel implements Board {
         g.setColor(bgColor);
         g.fillRect(posX, posY, width, height);
 
+        drawGround(g);
+
         for(GUIView drawable : drawables) {
-            g.drawImage(drawable.getImage(), drawable.getPosX(), drawable.getPosY(), this);
+            drawable.draw(g, this);
         }
+    }
+
+    private void drawGround(Graphics g) {
+//        g.drawImage(tile.getImage(), tile.getPosX(), tile.getPosY(), this);
     }
 
 }

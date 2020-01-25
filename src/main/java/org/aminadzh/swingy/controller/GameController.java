@@ -7,26 +7,32 @@ import org.aminadzh.swingy.view.gui.GUIBoard;
 import org.aminadzh.swingy.view.gui.GUIView;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.AbstractMap;
 
 public class GameController {
-    AbstractMap.SimpleEntry<Hero, View> player1;
+    HeroController player;
     AbstractMap.SimpleEntry<Hero, View> player2;
     Window window;
+    Board board;
 
-    int WIN_WIDTH = 940;
-    int WIN_HEIGHT = 480;
+    int WIN_WIDTH = 766;
+    int WIN_HEIGHT = 460;
 
     public GameController() {
-        Board board = new GUIBoard(0, 0, WIN_WIDTH * 3 / 5, WIN_HEIGHT, Color.DARK_GRAY);
-        player1 = new AbstractMap.SimpleEntry<>(new Warrior("Peeves"),
-                new GUIView("assets/rpg-pack/chars/sensei/sensei.png", 50, 50));
-        board.addView(player1.getValue());
-        window = WindowFactory.createGUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT, (GUIBoard) board);
-
-        // Printing loop
-        while(true) {
-            window.draw();
-        }
+        board = new GUIBoard(0, 0, WIN_WIDTH * 3 / 5, WIN_HEIGHT, Color.DARK_GRAY);
+        player = new HeroController(new Warrior("Peeves"),
+                new GUIView("assets/rpg-pack/chars/sensei/sensei.png", 0, 0, 32, 46));
+        board.addView(player.getView());
+        window = WindowFactory.createGUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT, (GUIBoard) board, this);
     }
+
+    public void readInput(int code) {
+        if (code == KeyEvent.VK_RIGHT) {
+            player.moveRight();
+        }
+
+        window.draw();
+    }
+
 }
