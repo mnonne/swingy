@@ -10,14 +10,10 @@ public class GUIView implements View {
     private Image image;
     private int posX;
     private int posY;
-    private int width;
-    private int height;
 
-    public GUIView(String imageFile, int posX, int posY, int width, int height) {
+    public GUIView(String imageFile, int posX, int posY) {
         this.posX = posX;
         this.posY = posY;
-        this.width = width;
-        this.height = height;
 
         ImageIcon ii = new ImageIcon(imageFile);
         image = ii.getImage();
@@ -33,14 +29,14 @@ public class GUIView implements View {
 
     public void setPosX(int posX) {
         this.posX = posX;
-        System.out.println("KEK");
+        System.out.println(posX);
     }
 
     public void setPosY(int posY) {
         this.posY = posY;
     }
 
-    public void draw(Graphics g, ImageObserver observer) {
+    public void draw(Graphics g, int width, int height, ImageObserver observer) {
         g.drawImage(image, posX + (height - width) / 2, posY, width, height, observer);
     }
 }
