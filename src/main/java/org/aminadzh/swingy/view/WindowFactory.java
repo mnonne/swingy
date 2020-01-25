@@ -8,8 +8,8 @@ import java.awt.*;
 
 public class WindowFactory {
 
-    public static Window createGUIWindow(String name, int width, int height, GUIBoard board, GameController controller) {
-        return new GUIWindow(name, width, height, board, controller);
+    public static Window createGUIWindow(String name, int width, int height, GameController controller) {
+        return new GUIWindow(name, width, height, controller);
     }
 
 }

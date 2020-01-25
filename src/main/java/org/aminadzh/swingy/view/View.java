@@ -1,8 +1,12 @@
 package org.aminadzh.swingy.view;
 
 public interface View {
-    public void setPosX(int posX);
-    public void setPosY(int posY);
-    public int getPosX();
-    public int getPosY();
+    void setPosX(int posX);
+    void setPosY(int posY);
+    void setWidth(int width);
+    void setHeight(int height);
+    int getWidth();
+    int getHeight();
+    int getPosX();
+    int getPosY();
 }

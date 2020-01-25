@@ -1,5 +1,7 @@
 package org.aminadzh.swingy.view;
 
 public interface Window {
-    public void draw();
+    void draw();
+    void addDrawable(View view);
+    void setTileNum(int n);
 }

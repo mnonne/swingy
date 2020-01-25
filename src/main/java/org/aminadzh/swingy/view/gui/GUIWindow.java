@@ -2,22 +2,37 @@ package org.aminadzh.swingy.view.gui;
 
 import org.aminadzh.swingy.controller.GameController;
 import org.aminadzh.swingy.view.Window;
+import org.aminadzh.swingy.view.View;
 
-import javax.swing.JFrame;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GUIWindow extends JFrame implements Window {
+    private GUIBoard panel;
 
-    public GUIWindow(String name, int width, int height, GUIBoard board, GameController controller) {
+    public GUIWindow(String name, int width, int height, GameController controller) {
+        panel = new GUIBoard();
+        panel.addBackground(0, 0, height, height, Color.DARK_GRAY);
+        panel.setPreferredSize(new Dimension(width, height));
+        add(panel);
         setTitle(name);
-        setSize(width, height);
+        pack();
         setLocationRelativeTo(null);
-        add(board);
         addKeyListener(new TAdapter(controller));
         setVisible(true);
         setFocusable(true);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+    public void setTileNum(int n) {
+        panel.setTileSize(panel.getHeight() / n);
+    }
+
+    public void addDrawable(View view) {
+        panel.addView(view);
     }
 
     public void draw() {
