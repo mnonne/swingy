@@ -1,34 +1,52 @@
 package org.aminadzh.swingy.view.gui;
 
 import javax.swing.*;
-import java.awt.EventQueue;
+import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
-public class GUIBoard {
-    JFrame frame;
-    String name;
-    int width;
-    int height;
+import org.aminadzh.swingy.view.View;
+import org.aminadzh.swingy.view.Board;
 
-    public GUIBoard(String name, int width, int height) {
-        this.name = name;
+public class GUIBoard extends JPanel implements Board {
+    private int posX;
+    private int posY;
+    private int width;
+    private int height;
+    private Color bgColor;
+
+    private ArrayList<GUIView> drawables;
+
+    public GUIBoard(int posX, int posY, int width, int height, Color bgColor) {
+        this.posX = posX;
+        this.posY = posY;
         this.width = width;
         this.height = height;
-
-        EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                frame = new JFrame();
-                frame.setTitle(name);
-                frame.setSize(width, height);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.setResizable(false);
-                frame.setLocationRelativeTo(null);
-                frame.setVisible(true);
-            }
-        });
+        this.bgColor = bgColor;
+        setFocusable(true);
+        drawables = new ArrayList<>();
     }
 
-    public void addView(JPanel panel) {
-        frame.add(panel);
+    public void addView(View view) {
+        drawables.add((GUIView) view); // TODO: this is not safe
     }
+
+    @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+//        System.out.println("KEK");
+        doDrawings(g);
+    }
+
+    private void doDrawings(Graphics g) {
+        g.setColor(bgColor);
+        g.fillRect(posX, posY, width, height);
+
+        for(GUIView drawable : drawables) {
+            g.drawImage(drawable.getImage(), drawable.getPosX(), drawable.getPosY(), this);
+        }
+    }
+
 }
