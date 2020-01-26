@@ -22,7 +22,7 @@ public class GameController {
         playerView = new GUIView("assets/sensei.png", 0, 0, 5, 5);
 //        board.addView(playerView);
         window = WindowFactory.createGUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT + 22, this); // 22 is width of window menu line
-        window.setTileNum(50);
+        window.setTileNum(10);
         window.addDrawable(playerView);
     }
 
