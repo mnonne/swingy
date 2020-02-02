@@ -40,7 +40,6 @@ public class MapView extends JPanel {
 
         grid.setLayout(new GridLayout(mapSize, mapSize, 0, 0));
         grid.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, Color.BLACK));
-//        grid.setPreferredSize(new Dimension(23 * mapSize, 23 * mapSize));
     }
 
     public void onUpdate() {
@@ -57,5 +56,8 @@ public class MapView extends JPanel {
         scrollPane.repaint();
     }
 
+    public int getGridSize() {
+        return Math.max(getWidth() / mapSize, 23);
+    }
 
 }

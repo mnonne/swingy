@@ -25,4 +25,8 @@ public class GameCharacter {
         return level;
     }
 
+    public String getSpriteFilePath() {
+        return "./assets/mage.png";
+    }
+
 }

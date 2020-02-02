@@ -35,7 +35,7 @@ public class Swingy {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    window = new GUIWindow("Swingy", 1100, 600);
+                    window = new GUIWindow("Swingy", 1200, 600);
                     startLevel();
                 }
             });
