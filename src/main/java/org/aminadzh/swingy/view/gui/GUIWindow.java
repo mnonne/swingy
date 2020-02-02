@@ -1,42 +1,37 @@
 package org.aminadzh.swingy.view.gui;
 
-import org.aminadzh.swingy.view.Window;
+import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.view.IWindow;
 
 import javax.swing.JFrame;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
-public class GUIWindow extends JFrame implements Window {
-    private int width = 960;
-    private int height = 640;
+public class GUIWindow extends JFrame implements IWindow {
 
-    public GUIWindow(String name, int width, int height, GUIBoard board) {
-        setTitle(name);
+    private final static int width = 1200;
+    private final static int height = 600;
+
+    GameBoard gameBoard;
+
+    public GUIWindow(String name) {
         setSize(width, height);
-        setLocationRelativeTo(null);
-        add(board);
-        addKeyListener(new TAdapter());
-        setVisible(true);
-        setFocusable(true);
+        setTitle(name);
+        setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
-    public void draw() {
-        repaint();
+    public void startLevel(Hero hero) {
+        gameBoard = new GameBoard(hero);
+        add(gameBoard);
     }
 
-    private class TAdapter extends KeyAdapter {
+    public static int getWindowWidth() {
+        return width;
+    }
 
-        @Override
-        public void keyPressed(KeyEvent e) {
-            System.out.println("keyPressed="+KeyEvent.getKeyText(e.getKeyCode()));
-        }
-
-        @Override
-        public void keyReleased(KeyEvent e) {
-            System.out.println("keyReleased="+KeyEvent.getKeyText(e.getKeyCode()));
-        }
-
+    public static int getWindowHeight() {
+        return height;
     }
 
 }

@@ -1,5 +1,4 @@
 package org.aminadzh.swingy.view;
 
-public interface View {
-
+public interface IObjectView {
 }

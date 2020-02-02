@@ -1,0 +1,9 @@
+package org.aminadzh.swingy.view;
+
+import org.aminadzh.swingy.model.characters.Hero;
+
+public interface IWindow {
+
+    void startLevel(Hero hero);
+
+}
