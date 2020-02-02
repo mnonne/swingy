@@ -32,4 +32,8 @@ public class GameBoard extends JPanel {
         add(mapView, gridBagConstraints);
     }
 
+    void updateMap() {
+        mapView.onUpdate();
+    }
+
 }

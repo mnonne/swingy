@@ -35,7 +35,7 @@ public class Swingy {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    window = new GUIWindow("Swingy");
+                    window = new GUIWindow("Swingy", 1100, 600);
                     startLevel();
                 }
             });
@@ -61,6 +61,10 @@ public class Swingy {
 
     public static void main(String[] args) {
         Swingy.getInstance().startGame();
+    }
+
+    public void updateMap() {
+        window.updateMap();
     }
 
 }

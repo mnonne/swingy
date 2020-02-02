@@ -5,5 +5,6 @@ import org.aminadzh.swingy.model.characters.Hero;
 public interface IWindow {
 
     void startLevel(Hero hero);
+    void updateMap();
 
 }

@@ -9,21 +9,16 @@ import java.io.IOException;
 
 public class MapView extends JPanel {
 
-    final private String spritePath = "./assets/ground.png";
+    final private String groundSpritePath = "./assets/ground.png";
     private int mapSize;
 
-    private BufferedImage groundSprite;
     private JPanel grid;
     private GridBagConstraints gridBagConstraints;
     private JScrollPane scrollPane;
 
     public MapView(int mapSize) {
         this.mapSize = mapSize;
-        try {
-            groundSprite = ImageIO.read(new File(spritePath));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
 
         initGrid();
     }
@@ -42,6 +37,24 @@ public class MapView extends JPanel {
 
         scrollPane = new JScrollPane(grid);
         add(scrollPane, gridBagConstraints);
+
+        grid.setLayout(new GridLayout(mapSize, mapSize, 0, 0));
+        grid.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, Color.BLACK));
+//        grid.setPreferredSize(new Dimension(23 * mapSize, 23 * mapSize));
+    }
+
+    public void onUpdate() {
+        for (int y = 0; y < mapSize; y++) {
+            for (int x = 0; x < mapSize; x++) {
+                GUIView ground = new GUIView(groundSpritePath, Math.max(getWidth() / mapSize, 23),
+                        Math.max(getHeight() / mapSize, 23));
+                ground.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.BLACK));
+                grid.add(ground);
+            }
+        }
+
+        scrollPane.validate();
+        scrollPane.repaint();
     }
 
 
