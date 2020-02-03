@@ -25,6 +25,14 @@ public class GameCharacter {
         return level;
     }
 
+    public int getPosX() {
+        return posX;
+    }
+
+    public int getPosY() {
+        return posY;
+    }
+
     public String getSpriteFilePath() {
         return "./assets/mage.png";
     }

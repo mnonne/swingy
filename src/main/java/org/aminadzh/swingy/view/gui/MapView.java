@@ -1,5 +1,7 @@
 package org.aminadzh.swingy.view.gui;
 
+import org.aminadzh.swingy.model.characters.Hero;
+
 import javax.swing.*;
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -42,11 +44,17 @@ public class MapView extends JPanel {
         grid.setBorder(BorderFactory.createMatteBorder(1, 1, 0, 0, Color.BLACK));
     }
 
-    public void onUpdate() {
+    public void onUpdate(Hero hero) {
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
-                GUIView ground = new GUIView(groundSpritePath, Math.max(getWidth() / mapSize, 23),
-                        Math.max(getHeight() / mapSize, 23));
+                GUIView ground;
+                if (hero.getPosX() - 1 == x && hero.getPosY() - 1 == y) {
+                    ground = new GUIView(Math.max(getWidth() / mapSize, 23),
+                            Math.max(getHeight() / mapSize, 23), groundSpritePath, hero.getSpriteFilePath());
+                } else {
+                    ground = new GUIView(Math.max(getWidth() / mapSize, 23),
+                            Math.max(getHeight() / mapSize, 23), groundSpritePath);
+                }
                 ground.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.BLACK));
                 grid.add(ground);
             }

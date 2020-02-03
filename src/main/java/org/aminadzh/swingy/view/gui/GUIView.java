@@ -11,16 +11,19 @@ import java.io.IOException;
 
 public class GUIView extends JPanel implements IObjectView {
 
-    private BufferedImage bufferedImage;
+    private BufferedImage[] bufferedImages;
 
     private int width;
     private int height;
 
-    public GUIView(String filePath, int width, int height) {
-        try {
-            bufferedImage = ImageIO.read(new File(filePath));
-        } catch (IOException e) {
-            e.printStackTrace();
+    public GUIView(int width, int height, String... files) {
+        bufferedImages = new BufferedImage[files.length];
+        for (int i = 0; i < files.length; i++) {
+            try {
+                bufferedImages[i] = ImageIO.read(new File(files[i]));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
         this.width = width;
         this.height = height;
@@ -31,7 +34,9 @@ public class GUIView extends JPanel implements IObjectView {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        g.drawImage(bufferedImage,0, 0, width, height, this);
+        for (int i = 0; i < bufferedImages.length; i++) {
+            g.drawImage(bufferedImages[i], 0, 0, width, height, this);
+        }
     }
 
 }

@@ -29,7 +29,6 @@ public class GUIWindow extends JFrame implements IWindow {
         gameBoard.setPreferredSize(new Dimension(width, height));
         add(gameBoard);
         pack();
-        Swingy.getInstance().updateMap();
     }
 
     public static int getWindowWidth() {
@@ -40,8 +39,8 @@ public class GUIWindow extends JFrame implements IWindow {
         return height;
     }
 
-    public void updateMap() {
-        gameBoard.updateMap();
+    public void updateMap(Hero hero) {
+        gameBoard.updateMap(hero);
     }
 
 }

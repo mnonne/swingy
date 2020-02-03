@@ -50,6 +50,7 @@ public class Swingy {
         Hero hero = new Hero("kek", 1, 1);
 
         window.startLevel(hero);
+        updateMap(hero);
     }
 
     public static Swingy getInstance() {
@@ -63,8 +64,9 @@ public class Swingy {
         Swingy.getInstance().startGame();
     }
 
-    public void updateMap() {
-        window.updateMap();
+    public void updateMap(Hero hero) {
+        //TODO: model update
+        window.updateMap(hero);
     }
 
 }
