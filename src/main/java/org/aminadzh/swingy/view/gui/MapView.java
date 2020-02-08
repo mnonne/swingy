@@ -45,6 +45,7 @@ public class MapView extends JPanel {
     }
 
     public void onUpdate(Hero hero) {
+        grid.removeAll();
         for (int y = 0; y < mapSize; y++) {
             for (int x = 0; x < mapSize; x++) {
                 GUIView ground;

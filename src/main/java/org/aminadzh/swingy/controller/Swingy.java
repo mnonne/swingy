@@ -6,14 +6,20 @@ import org.aminadzh.swingy.view.gui.GUIWindow;
 import org.aminadzh.swingy.model.characters.Hero; //TODO: this is temporary. Factory is needed
 
 import javax.swing.SwingUtilities;
+import java.awt.event.KeyEvent;
 import java.util.AbstractMap;
 import java.util.Scanner;
 
 public class Swingy {
 
     private static Swingy instance; // For singleton
-
     private IWindow window;
+    private Hero hero;
+
+    private final int MOVE_LEFT = 37;
+    private final int MOVE_UP = 38;
+    private final int MOVE_RIGHT = 39;
+    private final int MOVE_DOWN= 40;
 
     private Swingy() {
 
@@ -47,10 +53,10 @@ public class Swingy {
 
     private void startLevel() {
         //TODO: needed normal player initialization
-        Hero hero = new Hero("kek", 1, 1);
+        hero = new Hero("kek", 1, 1);
 
         window.startLevel(hero);
-        updateMap(hero);
+        updateMap();
     }
 
     public static Swingy getInstance() {
@@ -64,9 +70,54 @@ public class Swingy {
         Swingy.getInstance().startGame();
     }
 
-    public void updateMap(Hero hero) {
+    public void updateMap() {
         //TODO: model update
         window.updateMap(hero);
+    }
+
+    public void onKeyInput(int command) {
+        switch (command) {
+            case (MOVE_RIGHT):
+                moveHeroRight();
+                break;
+            case (MOVE_DOWN):
+               moveHeroDown();
+                break;
+            case (MOVE_LEFT):
+                moveHeroLeft();
+                break;
+            case (MOVE_UP):
+                moveHeroUp();
+                break;
+            default:
+                break;
+        }
+
+        updateMap();
+    }
+
+    private void moveHeroRight() {
+        if (hero.getPosX() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
+            hero.moveRight();
+        }
+    }
+
+    private void moveHeroLeft() {
+        if (hero.getPosX() > 1) {
+            hero.moveLeft();
+        }
+    }
+
+    private void moveHeroDown() {
+        if (hero.getPosY() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
+            hero.moveDown();
+        }
+    }
+
+    private void moveHeroUp() {
+        if (hero.getPosY() > 1) {
+            hero.moveUp();
+        }
     }
 
 }

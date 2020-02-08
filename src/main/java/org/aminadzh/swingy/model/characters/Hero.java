@@ -9,4 +9,20 @@ public class Hero extends GameCharacter implements GameObject {
 
     }
 
+    public void moveRight() {
+        setPosX(getPosX() + 1);
+    }
+
+    public void moveLeft() {
+        setPosX(getPosX() - 1);
+    }
+
+    public void moveUp() {
+        setPosY(getPosY() - 1);
+    }
+
+    public void moveDown() {
+        setPosY(getPosY() + 1);
+    }
+
 }

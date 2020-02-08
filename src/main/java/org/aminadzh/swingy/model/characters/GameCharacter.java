@@ -33,6 +33,14 @@ public class GameCharacter {
         return posY;
     }
 
+    public void setPosX(int posX) {
+        this.posX = posX;
+    }
+
+    public void setPosY(int posY) {
+        this.posY = posY;
+    }
+
     public String getSpriteFilePath() {
         return "./assets/mage.png";
     }

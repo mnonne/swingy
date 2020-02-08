@@ -4,8 +4,10 @@ import org.aminadzh.swingy.controller.Swingy;
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.view.IWindow;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class GUIWindow extends JFrame implements IWindow {
 
@@ -21,6 +23,7 @@ public class GUIWindow extends JFrame implements IWindow {
         setResizable(false);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
+        addKeyListener(new KAdapter());
         setVisible(true);
     }
 
@@ -41,6 +44,17 @@ public class GUIWindow extends JFrame implements IWindow {
 
     public void updateMap(Hero hero) {
         gameBoard.updateMap(hero);
+    }
+
+    private class KAdapter extends KeyAdapter {
+
+        @Override
+        public void keyReleased(KeyEvent e) {
+            System.out.println("key="+KeyEvent.getKeyText(e.getKeyCode()));
+            System.out.println(e.getKeyCode());
+            Swingy.getInstance().onKeyInput(e.getKeyCode());
+        }
+
     }
 
 }
