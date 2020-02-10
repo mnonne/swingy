@@ -41,6 +41,10 @@ public class GameCharacter {
         this.posY = posY;
     }
 
+    public String getName() {
+        return name;
+    }
+
     public String getSpriteFilePath() {
         return "./assets/mage.png";
     }

@@ -53,7 +53,7 @@ public class Swingy {
 
     private void startLevel() {
         //TODO: needed normal player initialization
-        hero = new Hero("kek", 1, 1);
+        hero = new Hero("Kek", 1, 1);
 
         window.startLevel(hero);
         updateMap();
