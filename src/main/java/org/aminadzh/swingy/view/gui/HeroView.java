@@ -10,9 +10,13 @@ import java.awt.*;
 public class HeroView extends JPanel {
 
     private GUIView avatar;
+    private GUIView sword;
+    private GUIView shield;
+    private GUIView armor;
     private JLabel avatarCaption;
-    private GUIView swordItem;
-
+    private JLabel swordCaption;
+    private JLabel shieldCaption;
+    private JLabel armorCaption;
 
     public HeroView(Hero hero) {
         setLayout(new GridBagLayout());
@@ -29,7 +33,7 @@ public class HeroView extends JPanel {
         avatar.setBorder(new LineBorder(Color.BLACK));
         add(avatar, c);
 
-        c.gridheight = 3;
+        c.gridwidth = 3;
         c.gridheight = 1;
         c.weightx = 1;
         c.gridx = 0;
@@ -38,6 +42,32 @@ public class HeroView extends JPanel {
         avatarCaption = new JLabel(hero.getName());
         avatarCaption.setFont(new Font("Arial", 1, 20));
         add(avatarCaption, c);
+
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.gridy = 2;
+        sword = new GUIView(46, 46, hero.getSword().getSpriteFilePath());
+        sword.setBorder(new LineBorder(Color.BLACK));
+        add(sword, c);
+
+        c.gridwidth = 1;
+        c.gridheight = 1;
+        c.weightx = 1;
+        c.gridx = 0;
+        c.gridy = 3;
+        swordCaption = new JLabel(hero.getSword().getName());
+        swordCaption.setFont(new Font("Helvetica", 1, 15));
+        add(swordCaption, c);
+
+//        c.gridwidth = 1;
+//        c.gridheight = 1;
+//        c.weightx = 1;
+//        c.gridx = 1;
+//        c.gridy = 2;
+//        shield = new GUIView(46, 46, hero.getShield().getSpriteFilePath());
+//        add(shield, c);
     }
 
 }

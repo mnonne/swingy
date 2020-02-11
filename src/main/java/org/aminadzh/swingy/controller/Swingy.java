@@ -1,6 +1,7 @@
 package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.items.swords.RustySword;
 import org.aminadzh.swingy.view.IWindow;
 import org.aminadzh.swingy.view.gui.GUIWindow;
 import org.aminadzh.swingy.model.characters.Hero; //TODO: this is temporary. Factory is needed
@@ -54,6 +55,7 @@ public class Swingy {
     private void startLevel() {
         //TODO: needed normal player initialization
         hero = new Hero("Kek", 1, 1);
+        hero.obtainSword(new RustySword());
 
         window.startLevel(hero);
         updateMap();
