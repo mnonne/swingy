@@ -1,14 +1,11 @@
 package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
-import org.aminadzh.swingy.model.items.swords.RustySword;
+import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
 import org.aminadzh.swingy.view.gui.GUIWindow;
-import org.aminadzh.swingy.model.characters.Hero; //TODO: this is temporary. Factory is needed
 
 import javax.swing.SwingUtilities;
-import java.awt.event.KeyEvent;
-import java.util.AbstractMap;
 import java.util.Scanner;
 
 public class Swingy {
@@ -55,7 +52,7 @@ public class Swingy {
     private void startLevel() {
         //TODO: needed normal player initialization
         hero = new Hero("Kek", 1, 1);
-        hero.obtainSword(new RustySword());
+        hero.obtainSword(new BloodSword());
 
         window.startLevel(hero);
         updateMap();

@@ -9,7 +9,8 @@ public class GameCharacter {
     private long experience;
     private int attack;
     private int defence;
-    private int hitPoints;
+    private int hitPoints = 100;
+    private int maxHitPoints = 100;
     private int posX;
     private int posY;
 
@@ -43,6 +44,14 @@ public class GameCharacter {
 
     public String getName() {
         return name;
+    }
+
+    public int getMaxHitPoints() {
+        return maxHitPoints;
+    }
+
+    public int getHitPoints() {
+        return hitPoints;
     }
 
     public String getSpriteFilePath() {
