@@ -47,4 +47,8 @@ public class Hero extends GameCharacter implements GameObject {
         setPosY(getPosY() + 1);
     }
 
+    public String getSpecialization() {
+        return "Mage"; //TODO: actual implementation
+    }
+
 }

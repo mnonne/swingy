@@ -14,6 +14,9 @@ public class Swingy {
     private IWindow window;
     private Hero hero;
 
+    public static final int WIN_WIDTH = 1200;
+    public static final int WIN_HEIGHT = 600;
+
     private final int MOVE_LEFT = 37;
     private final int MOVE_UP = 38;
     private final int MOVE_RIGHT = 39;
@@ -39,7 +42,7 @@ public class Swingy {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    window = new GUIWindow("Swingy", 1200, 600);
+                    window = new GUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT);
                     startLevel();
                 }
             });
