@@ -81,21 +81,25 @@ public class Swingy {
         switch (command) {
             case (MOVE_RIGHT):
                 moveHeroRight();
+                window.updateMap(hero);
                 break;
             case (MOVE_DOWN):
                moveHeroDown();
+                window.updateMap(hero);
                 break;
             case (MOVE_LEFT):
                 moveHeroLeft();
+                window.updateMap(hero);
                 break;
             case (MOVE_UP):
-                moveHeroUp();
+//                moveHeroUp();
+//                window.updateMap(hero);
+                hero.takeDamage(1);
+                window.updateHeroView(hero);
                 break;
             default:
                 break;
         }
-
-        updateMap();
     }
 
     private void moveHeroRight() {

@@ -56,4 +56,8 @@ public class GameBoard extends JPanel {
         mapView.onUpdate(hero);
     }
 
+    void updateHeroView(Hero hero) {
+        heroView.onUpdate(hero);
+    }
+
 }

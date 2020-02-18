@@ -6,9 +6,8 @@ public class GameCharacter {
 
     private String name;
     private int level = 1; //TODO: remove initialization
-    private long experience;
-    private int attack;
-    private int defence;
+    private int attack = 1;
+    private int defence = 2;
     private int hitPoints = 100;
     private int maxHitPoints = 100;
     private int posX;
@@ -20,6 +19,10 @@ public class GameCharacter {
         this.name = name;
         this.posX = posX;
         this.posY = posY;
+    }
+
+    public void takeDamage(int dmg) {
+        hitPoints -= dmg; // TODO: set dead
     }
 
     public int getLevel() {
@@ -52,6 +55,14 @@ public class GameCharacter {
 
     public int getHitPoints() {
         return hitPoints;
+    }
+
+    public int getAttack() {
+        return attack;
+    }
+
+    public int getDefence() {
+        return defence;
     }
 
     public String getSpriteFilePath() {

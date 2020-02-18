@@ -6,6 +6,9 @@ import org.aminadzh.swingy.model.items.swords.NoSword;
 
 public class Hero extends GameCharacter implements GameObject {
 
+    private long experience = 5;
+    private long expToNextLevel = 100;
+
     private Item sword;
     private Item shield;
     private Item armor;
@@ -29,6 +32,14 @@ public class Hero extends GameCharacter implements GameObject {
 
     public Item getArmor() {
         return armor;
+    }
+
+    public long getExperience() {
+        return experience;
+    }
+
+    public long getExpToNextLevel() {
+        return expToNextLevel;
     }
 
     public void moveRight() {

@@ -46,6 +46,10 @@ public class GUIWindow extends JFrame implements IWindow {
         gameBoard.updateMap(hero);
     }
 
+    public void updateHeroView(Hero hero) {
+        gameBoard.updateHeroView(hero);
+    }
+
     private class KAdapter extends KeyAdapter {
 
         @Override
