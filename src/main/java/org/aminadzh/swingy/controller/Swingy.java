@@ -92,10 +92,8 @@ public class Swingy {
                 window.updateMap(hero);
                 break;
             case (MOVE_UP):
-//                moveHeroUp();
-//                window.updateMap(hero);
-                hero.takeDamage(1);
-                window.updateHeroView(hero);
+                moveHeroUp();
+                window.updateMap(hero);
                 break;
             default:
                 break;

@@ -12,11 +12,6 @@ import java.awt.*;
 
 public class HeroView extends JPanel {
 
-    GridBagConstraints statsLayout;
-    GridBagConstraints itemsLayout;
-
-    private JPanel stats;
-    private JPanel items;
     private GUIView avatar;
     private GUIView sword;
     private GUIView shield;
@@ -36,24 +31,9 @@ public class HeroView extends JPanel {
     public HeroView(Hero hero) {
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-        statsLayout = new GridBagConstraints();
-        statsLayout.fill = GridBagConstraints.HORIZONTAL;
-        itemsLayout = new GridBagConstraints();
-
-        stats = new JPanel();
-        stats.setLayout(new GridBagLayout());
         setHeroAvatar(hero);
-//        stats.setBorder(new LineBorder(Color.BLACK));
-        stats.setMaximumSize(new Dimension(GUIWindow.getWindowWidth() / 4, 100));
-//        stats.setMinimumSize(new Dimension(GUIWindow.getWindowWidth() / 4, GUIWindow.getWindowHeight() / 2));
-        add(stats);
 
-        items = new JPanel();
         setSword(hero.getSword());
-        items.setBorder(new LineBorder(Color.BLACK));
-        items.setMaximumSize(new Dimension(GUIWindow.getWindowWidth() / 4, 200));
-//        items.setMinimumSize(new Dimension(GUIWindow.getWindowWidth() / 4, GUIWindow.getWindowHeight() / 2));
-        add(items);
     }
 
     public void onUpdate(Hero hero) {
@@ -67,63 +47,41 @@ public class HeroView extends JPanel {
     }
 
     private void setHeroAvatar(Hero hero) {
-        statsLayout.gridx = 0;
-        statsLayout.gridy = 0;
-        statsLayout.weightx = 1;
-        statsLayout.weighty = 1;
-        statsLayout.gridwidth = 1;
-        statsLayout.gridheight = 3;
         GUIView avatar = new GUIView(92, 92, hero.getSpriteFilePath());
-        stats.add(avatar, statsLayout);
-
-        statsLayout.gridx = 1;
-        statsLayout.gridy = 0;
-        statsLayout.weightx = 7;
-        statsLayout.weighty = 1;
-        statsLayout.gridwidth = 2;
-        statsLayout.gridheight = 1;
-        avatarCaption = new JLabel("NAME: " + hero.getName());
+        avatar.setMinimumSize(new Dimension(92, 92));
+        avatar.setMaximumSize(new Dimension(92, 92));
+        avatar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        add(avatar);
+        avatarCaption = new JLabel("NAME: " + hero.getName(), SwingConstants.RIGHT);
         avatarCaption.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(avatarCaption, statsLayout);
+        avatarCaption.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        add(avatarCaption);
 
-        statsLayout.gridx = 1;
-        statsLayout.gridy = 1;
-        statsLayout.weightx = 7;
-        statsLayout.weighty = 1;
-        statsLayout.gridwidth = 2;
-        statsLayout.gridheight = 1;
         specialization = new JLabel("CLASS: " + hero.getSpecialization());
         specialization.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(specialization, statsLayout);
+        add(specialization);
 
-        statsLayout.gridx = 1;
-        statsLayout.gridy = 2;
         hpCaption = new JLabel("HP: " + hero.getHitPoints() + "/" + hero.getMaxHitPoints());
         hpCaption.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(hpCaption, statsLayout);
+        add(hpCaption);
 
-        statsLayout.gridx = 3;
-        statsLayout.gridy = 0;
         expCaption = new JLabel("EXP: " + hero.getExperience() + "/" + hero.getExpToNextLevel());
         expCaption.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(expCaption, statsLayout);
+        add(expCaption);
 
-        statsLayout.gridx = 3;
-        statsLayout.gridy = 1;
         attkCaption = new JLabel("ATK: " + hero.getAttack());
         attkCaption.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(attkCaption, statsLayout);
+        add(attkCaption);
 
-        statsLayout.gridx = 3;
-        statsLayout.gridy = 2;
         defCaption = new JLabel("DEF:" + hero.getDefence());
         defCaption.setFont(new Font("Arial", Font.BOLD, 15));
-        stats.add(defCaption, statsLayout);
+        add(defCaption);
     }
 
     private void setSword(Item sword) {
         GUIView avatar = new GUIView(46, 46, sword.getSpriteFilePath());
-        items.add(avatar, itemsLayout);
+        avatar.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        add(avatar);
     }
 
 }
