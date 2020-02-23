@@ -15,11 +15,18 @@ public class Hero extends GameCharacter implements GameObject {
 
     public Hero(String name, int posX, int posY) {
         super(name, posX, posY);
-        sword = new NoSword();
     }
 
     public void obtainSword(Item sword) {
         this.sword = sword;
+    }
+
+    public void obtainShield(Item shield) {
+        this.shield = shield;
+    }
+
+    public void obtainArmor(Item armor) {
+        this.armor = armor;
     }
 
     public Item getSword() {

@@ -1,6 +1,7 @@
 package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.items.shields.HolyShield;
 import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
 import org.aminadzh.swingy.view.gui.GUIWindow;
@@ -56,6 +57,7 @@ public class Swingy {
         //TODO: needed normal player initialization
         hero = new Hero("Kek", 1, 1);
         hero.obtainSword(new BloodSword());
+        hero.obtainShield(new HolyShield());
 
         window.startLevel(hero);
         updateMap();
