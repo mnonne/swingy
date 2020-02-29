@@ -15,10 +15,8 @@ public class GameCharacter {
 
     //TODO: artifacts (helmet, weapon, armor)
 
-    public GameCharacter(String name, int posX, int posY) {
+    public GameCharacter(String name) {
         this.name = name;
-        this.posX = posX;
-        this.posY = posY;
     }
 
     public void takeDamage(int dmg) {

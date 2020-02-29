@@ -58,7 +58,7 @@ public class Swingy {
 
     private void startLevel() {
         //TODO: needed normal player initialization
-        hero = new Hero("Kek", 1, 1);
+        hero = new Hero("Kek", "Mage");
         hero.obtainSword(new BloodSword());
         hero.obtainShield(new HolyShield());
         hero.obtainArmor(new GlassArmor());

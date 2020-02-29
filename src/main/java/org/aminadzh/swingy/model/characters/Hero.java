@@ -13,8 +13,15 @@ public class Hero extends GameCharacter implements GameObject {
     private Item shield;
     private Item armor;
 
-    public Hero(String name, int posX, int posY) {
-        super(name, posX, posY);
+    private String specialization;
+
+    public Hero(String name, String specialization) {
+        super(name);
+        this.specialization = specialization;
+        int pos = ((getLevel() - 1) * 5 + 10 - (getLevel() % 2)) / 2 + 1;
+        System.out.println(pos);
+        this.setPosX(pos);
+        this.setPosY(pos);
     }
 
     public void obtainSword(Item sword) {
@@ -66,7 +73,7 @@ public class Hero extends GameCharacter implements GameObject {
     }
 
     public String getSpecialization() {
-        return "Mage"; //TODO: actual implementation
+        return specialization;
     }
 
 }
