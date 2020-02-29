@@ -11,6 +11,7 @@ import org.aminadzh.swingy.view.gui.GUIWindow;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import javax.swing.SwingUtilities;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Swingy {
@@ -60,9 +61,6 @@ public class Swingy {
     private void startLevel() {
         //TODO: needed normal player initialization
         hero = new Hero("Kek", "Mage");
-//        hero.obtainSword(new BloodSword());
-//        hero.obtainShield(new HolyShield());
-//        hero.obtainArmor(new GlassArmor());
 
         window.startLevel(hero);
         updateMap();
@@ -90,38 +88,44 @@ public class Swingy {
         String msg = dtf.format(now) + ">> ";
         switch (command) {
             case (MOVE_RIGHT):
-                hero.obtainArmor(new LetherArmor());
                 moveHeroRight();
                 window.updateMap(hero);
-                window.updateHeroView(hero);
-                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
-                window.addMessageToDialog(msg);
                 break;
             case (MOVE_DOWN):
-                hero.obtainArmor(new GlassArmor());
                 moveHeroDown();
                 window.updateMap(hero);
-                window.updateHeroView(hero);
-                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
-                window.addMessageToDialog(msg);
                 break;
             case (MOVE_LEFT):
-                hero.obtainSword(new GrassSword());
                 moveHeroLeft();
                 window.updateMap(hero);
-                window.updateHeroView(hero);
-                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
-                window.addMessageToDialog(msg);
                 break;
             case (MOVE_UP):
                 moveHeroUp();
                 window.updateMap(hero);
-                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
-                window.addMessageToDialog(msg);
                 break;
             default:
                 break;
         }
+
+        if (command >= MOVE_LEFT && command <= MOVE_DOWN) {
+            window.addMessageToDialog(msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY());
+            if (thereIsAnEnemy(hero.getPosX(), hero.getPosY())) {
+                window.addMessageToDialog(msg + hero.getName() + " has met an enemy");
+            }
+        }
+    }
+
+    private boolean thereIsAnEnemy(int posX, int posY) {
+        Random rand = new Random();
+        int upperbound = 100;
+        if (posX % 2 == 0 && posY % 2 != 0) {
+            upperbound = 80;
+        }
+
+        if (rand.nextInt(upperbound) > 75) {
+            return true;
+        }
+        return false;
     }
 
     private void moveHeroRight() {
