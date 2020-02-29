@@ -22,7 +22,7 @@ public class GUIView extends JPanel implements IObjectView {
             try {
                 bufferedImages[i] = ImageIO.read(new File(files[i]));
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Failed to load file " + files[i]);
             }
         }
         this.width = width;

@@ -2,6 +2,7 @@ package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.model.items.armor.GlassArmor;
+import org.aminadzh.swingy.model.items.armor.LetherArmor;
 import org.aminadzh.swingy.model.items.shields.HolyShield;
 import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
@@ -59,9 +60,9 @@ public class Swingy {
     private void startLevel() {
         //TODO: needed normal player initialization
         hero = new Hero("Kek", "Mage");
-        hero.obtainSword(new BloodSword());
-        hero.obtainShield(new HolyShield());
-        hero.obtainArmor(new GlassArmor());
+//        hero.obtainSword(new BloodSword());
+//        hero.obtainShield(new HolyShield());
+//        hero.obtainArmor(new GlassArmor());
 
         window.startLevel(hero);
         updateMap();
@@ -89,20 +90,26 @@ public class Swingy {
         String msg = dtf.format(now) + ">> ";
         switch (command) {
             case (MOVE_RIGHT):
+                hero.obtainArmor(new LetherArmor());
                 moveHeroRight();
                 window.updateMap(hero);
+                window.updateHeroView(hero);
                 msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
                 window.addMessageToDialog(msg);
                 break;
             case (MOVE_DOWN):
-               moveHeroDown();
+                hero.obtainArmor(new GlassArmor());
+                moveHeroDown();
                 window.updateMap(hero);
+                window.updateHeroView(hero);
                 msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
                 window.addMessageToDialog(msg);
                 break;
             case (MOVE_LEFT):
+                hero.obtainSword(new GrassSword());
                 moveHeroLeft();
                 window.updateMap(hero);
+                window.updateHeroView(hero);
                 msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
                 window.addMessageToDialog(msg);
                 break;
