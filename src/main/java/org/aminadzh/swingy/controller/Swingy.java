@@ -1,6 +1,7 @@
 package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.items.armor.GlassArmor;
 import org.aminadzh.swingy.model.items.shields.HolyShield;
 import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
@@ -58,6 +59,7 @@ public class Swingy {
         hero = new Hero("Kek", 1, 1);
         hero.obtainSword(new BloodSword());
         hero.obtainShield(new HolyShield());
+        hero.obtainArmor(new GlassArmor());
 
         window.startLevel(hero);
         updateMap();
@@ -96,6 +98,7 @@ public class Swingy {
             case (MOVE_UP):
                 moveHeroUp();
                 window.updateMap(hero);
+                window.addMessageToDialog("Kek");
                 break;
             default:
                 break;

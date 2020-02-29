@@ -50,6 +50,10 @@ public class GUIWindow extends JFrame implements IWindow {
         gameBoard.updateHeroView(hero);
     }
 
+    public void addMessageToDialog(String msg) {
+        gameBoard.addMessageToDialog(msg);
+    }
+
     private class KAdapter extends KeyAdapter {
 
         @Override

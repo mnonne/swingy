@@ -60,4 +60,8 @@ public class GameBoard extends JPanel {
         heroView.onUpdate(hero);
     }
 
+    void addMessageToDialog(String msg) {
+        dialogView.addToDialog(msg);
+    }
+
 }

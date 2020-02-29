@@ -7,5 +7,6 @@ public interface IWindow {
     void startLevel(Hero hero);
     void updateMap(Hero hero);
     void updateHeroView(Hero hero);
+    void addMessageToDialog(String message);
 
 }
