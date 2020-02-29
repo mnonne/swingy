@@ -7,6 +7,8 @@ import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
 import org.aminadzh.swingy.view.gui.GUIWindow;
 
+import java.time.format.DateTimeFormatter;
+import java.time.LocalDateTime;
 import javax.swing.SwingUtilities;
 import java.util.Scanner;
 
@@ -82,23 +84,33 @@ public class Swingy {
     }
 
     public void onKeyInput(int command) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String msg = dtf.format(now) + ">> ";
         switch (command) {
             case (MOVE_RIGHT):
                 moveHeroRight();
                 window.updateMap(hero);
+                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
+                window.addMessageToDialog(msg);
                 break;
             case (MOVE_DOWN):
                moveHeroDown();
                 window.updateMap(hero);
+                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
+                window.addMessageToDialog(msg);
                 break;
             case (MOVE_LEFT):
                 moveHeroLeft();
                 window.updateMap(hero);
+                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
+                window.addMessageToDialog(msg);
                 break;
             case (MOVE_UP):
                 moveHeroUp();
                 window.updateMap(hero);
-                window.addMessageToDialog("Kek");
+                msg = msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY();
+                window.addMessageToDialog(msg);
                 break;
             default:
                 break;
