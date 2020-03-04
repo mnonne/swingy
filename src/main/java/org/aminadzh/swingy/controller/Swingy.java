@@ -1,6 +1,8 @@
 package org.aminadzh.swingy.controller;
 
+import org.aminadzh.swingy.model.characters.GameCharacter;
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.characters.Skeleton;
 import org.aminadzh.swingy.model.items.armor.GlassArmor;
 import org.aminadzh.swingy.model.items.armor.LetherArmor;
 import org.aminadzh.swingy.model.items.shields.HolyShield;
@@ -27,6 +29,8 @@ public class Swingy {
     private final int MOVE_UP = 38;
     private final int MOVE_RIGHT = 39;
     private final int MOVE_DOWN= 40;
+
+    private boolean battleMode;
 
     private Swingy() {
 
@@ -59,6 +63,7 @@ public class Swingy {
     }
 
     private void startLevel() {
+        battleMode = false;
         //TODO: needed normal player initialization
         hero = new Hero("Kek", "Mage");
 
@@ -86,33 +91,91 @@ public class Swingy {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String msg = dtf.format(now) + ">> ";
-        switch (command) {
-            case (MOVE_RIGHT):
-                moveHeroRight();
-                window.updateMap(hero);
-                break;
-            case (MOVE_DOWN):
-                moveHeroDown();
-                window.updateMap(hero);
-                break;
-            case (MOVE_LEFT):
-                moveHeroLeft();
-                window.updateMap(hero);
-                break;
-            case (MOVE_UP):
-                moveHeroUp();
-                window.updateMap(hero);
-                break;
-            default:
-                break;
-        }
+        if (!battleMode) {
+            switch (command) {
+                case (MOVE_RIGHT):
+                    moveHeroRight();
+                    window.updateMap(hero);
+                    break;
+                case (MOVE_DOWN):
+                    moveHeroDown();
+                    window.updateMap(hero);
+                    break;
+                case (MOVE_LEFT):
+                    moveHeroLeft();
+                    window.updateMap(hero);
+                    break;
+                case (MOVE_UP):
+                    moveHeroUp();
+                    window.updateMap(hero);
+                    break;
+                default:
+                    break;
+            }
 
-        if (command >= MOVE_LEFT && command <= MOVE_DOWN) {
-            window.addMessageToDialog(msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY());
-            if (thereIsAnEnemy(hero.getPosX(), hero.getPosY())) {
-                window.addMessageToDialog(msg + hero.getName() + " has met an enemy");
+
+            if (command >= MOVE_LEFT && command <= MOVE_DOWN) {
+                window.addMessageToDialog(msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY());
+                if (thereIsAnEnemy(hero.getPosX(), hero.getPosY())) {
+                    window.addMessageToDialog(msg + hero.getName() + " has met an enemy");
+                    battleMode = true;
+                    window.startBattle(hero, new Skeleton(1));
+                }
             }
         }
+    }
+
+    public void tryToEscape(GameCharacter enemy) {
+        Random rand = new Random();
+        int upperbound = 100;
+
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String msg = dtf.format(now) + ">> ";
+
+        if (rand.nextInt(upperbound) % 2 == 0) {
+            window.addMessageToDialog(msg + hero.getName() + " successfully escaped from battle");
+        } else {
+            window.addMessageToDialog(msg + hero.getName() + " failed to escape from battle");
+            startBattle(hero, enemy);
+        }
+        window.endBattle();
+        battleMode = false;
+    }
+
+    public void startBattle(Hero hero, GameCharacter enemy) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String msg = dtf.format(now) + ">> ";
+        window.addMessageToDialog(msg + hero.getName() + " starting battle with " + enemy.getName());
+        int counter = 1;
+        while (hero.getHitPoints() > 0 || enemy.getHitPoints() > 0) {
+            if (counter % 2 == 0) {
+                attack(hero, enemy);
+            } else {
+                attack(enemy, hero);
+            }
+            counter++;
+        }
+        window.endBattle();
+        battleMode = false;
+        window.updateHeroView(hero);
+    }
+
+    private void attack(GameCharacter attacker, GameCharacter defender) {
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String msg = dtf.format(now) + ">> ";
+
+        Random rand = new Random();
+        int upperbound = 100;
+        if (rand.nextInt(upperbound) > 70) {
+            window.addMessageToDialog(msg + attacker.getName() + " misses");
+            return;
+        }
+
+        defender.takeDamage(attacker.getAttack());
+        window.addMessageToDialog(msg + attacker.getName() + " hits for " + attacker.getAttack());
     }
 
     private boolean thereIsAnEnemy(int posX, int posY) {

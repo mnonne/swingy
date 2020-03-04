@@ -1,6 +1,7 @@
 package org.aminadzh.swingy.view.gui;
 
 import org.aminadzh.swingy.controller.Swingy;
+import org.aminadzh.swingy.model.characters.GameCharacter;
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.view.IWindow;
 
@@ -15,6 +16,7 @@ public class GUIWindow extends JFrame implements IWindow {
     private static int height;
 
     GameBoard gameBoard;
+    private BattleView battleView;
 
     public GUIWindow(String name, int width, int height) {
         this.width = width;
@@ -32,6 +34,15 @@ public class GUIWindow extends JFrame implements IWindow {
         gameBoard.setPreferredSize(new Dimension(width, height));
         add(gameBoard);
         pack();
+    }
+
+    public void startBattle(Hero hero, GameCharacter enemy) {
+        battleView = new BattleView(hero, enemy, this);
+    }
+
+    public void endBattle() {
+        battleView.dispose();
+        battleView = null;
     }
 
     public static int getWindowWidth() {

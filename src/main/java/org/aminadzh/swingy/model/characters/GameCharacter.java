@@ -1,26 +1,24 @@
 package org.aminadzh.swingy.model.characters;
 
-import org.aminadzh.swingy.model.GameObject;
-
-public class GameCharacter {
+public abstract class GameCharacter {
 
     private String name;
     private int level = 1; //TODO: remove initialization
-    private int attack = 1;
+    private int attack = 10;
     private int defence = 2;
     private int hitPoints = 100;
     private int maxHitPoints = 100;
     private int posX;
     private int posY;
 
-    //TODO: artifacts (helmet, weapon, armor)
-
     public GameCharacter(String name) {
         this.name = name;
     }
 
     public void takeDamage(int dmg) {
-        hitPoints -= dmg; // TODO: set dead
+        if (dmg - defence > 0) {
+            hitPoints -= dmg - defence;
+        }
     }
 
     public int getLevel() {
@@ -63,8 +61,6 @@ public class GameCharacter {
         return defence;
     }
 
-    public String getSpriteFilePath() {
-        return "./assets/mage.png";
-    }
+    abstract public String getSpriteFilePath();
 
 }

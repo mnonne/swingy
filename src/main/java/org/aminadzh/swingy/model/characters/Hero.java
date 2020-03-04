@@ -1,10 +1,7 @@
 package org.aminadzh.swingy.model.characters;
-
-import org.aminadzh.swingy.model.GameObject;
 import org.aminadzh.swingy.model.items.Item;
-import org.aminadzh.swingy.model.items.swords.NoSword;
 
-public class Hero extends GameCharacter implements GameObject {
+public class Hero extends GameCharacter {
 
     private long experience = 5;
     private long expToNextLevel = 100;
@@ -48,6 +45,35 @@ public class Hero extends GameCharacter implements GameObject {
         return armor;
     }
 
+    public int getAttack() {
+        if (sword != null) {
+            return super.getAttack() + sword.getBonus();
+        }
+        return super.getAttack();
+    }
+
+    public int getMaxHitPoints() {
+        if (shield != null) {
+            return super.getHitPoints() + shield.getBonus();
+        }
+        return super.getMaxHitPoints();
+    }
+
+    public int getDefence() {
+        if (armor != null) {
+            return super.getDefence() + armor.getBonus();
+        }
+        return super.getDefence();
+    }
+
+    public void takeDamage(int dmg) {
+        if (armor != null) {
+            super.takeDamage(dmg - armor.getBonus());
+        } else {
+            super.takeDamage(dmg);
+        }
+    }
+
     public long getExperience() {
         return experience;
     }
@@ -74,6 +100,10 @@ public class Hero extends GameCharacter implements GameObject {
 
     public String getSpecialization() {
         return specialization;
+    }
+
+    public String getSpriteFilePath() {
+        return "./assets/mage.png";
     }
 
 }
