@@ -12,13 +12,14 @@ public class Hero extends GameCharacter {
 
     private String specialization;
 
-    public Hero(String name, String specialization) {
-        super(name);
+    public Hero(String name, String specialization, int level, int attack, int defence, int maxHitPoints) {
+        super(name, level, attack, defence, maxHitPoints);
         this.specialization = specialization;
         int pos = ((getLevel() - 1) * 5 + 10 - (getLevel() % 2)) / 2 + 1;
         System.out.println(pos);
         this.setPosX(pos);
         this.setPosY(pos);
+        expToNextLevel = getLevel() * 1000 + (getLevel() - 1) * (getLevel() - 1) * 450;
     }
 
     public void obtainSword(Item sword) {
@@ -31,6 +32,23 @@ public class Hero extends GameCharacter {
 
     public void obtainArmor(Item armor) {
         this.armor = armor;
+    }
+
+    public void takeDamage(int dmg) {
+        if (armor != null) {
+            super.takeDamage(dmg - armor.getBonus());
+        } else {
+            super.takeDamage(dmg);
+        }
+    }
+
+    public void takeExperience(int amount) {
+        experience += amount;
+        if (experience >= expToNextLevel) {
+            levelUp();
+            experience = 0;
+            calcNextLevel();
+        }
     }
 
     public Item getSword() {
@@ -66,11 +84,15 @@ public class Hero extends GameCharacter {
         return super.getDefence();
     }
 
-    public void takeDamage(int dmg) {
-        if (armor != null) {
-            super.takeDamage(dmg - armor.getBonus());
-        } else {
-            super.takeDamage(dmg);
+    protected void levelUp() {
+        int lvl = getLevel();
+        super.levelUp();
+
+        if (lvl < getLevel()) {
+            setAttack(getAttack() + 3);
+            setDefence(getDefence() + 3);
+            setMaxHitPoints(getMaxHitPoints() + 3);
+            setHitPoints(getMaxHitPoints());
         }
     }
 
@@ -104,6 +126,10 @@ public class Hero extends GameCharacter {
 
     public String getSpriteFilePath() {
         return "./assets/mage.png";
+    }
+
+    private void calcNextLevel() {
+        expToNextLevel = getLevel() * 1000 + (getLevel() - 1) * (getLevel() - 1) * 450;
     }
 
 }

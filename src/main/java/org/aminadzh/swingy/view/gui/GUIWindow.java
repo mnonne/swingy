@@ -41,8 +41,10 @@ public class GUIWindow extends JFrame implements IWindow {
     }
 
     public void endBattle() {
-        battleView.dispose();
-        battleView = null;
+        if (battleView != null) {
+            battleView.dispose();
+            battleView = null;
+        }
     }
 
     public static int getWindowWidth() {
@@ -64,6 +66,11 @@ public class GUIWindow extends JFrame implements IWindow {
     public void addMessageToDialog(String msg) {
         gameBoard.addMessageToDialog(msg);
     }
+
+    public void showDeathMessage() {
+        DeathMessage popup = new DeathMessage(this);
+    }
+
 
     private class KAdapter extends KeyAdapter {
 

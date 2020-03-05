@@ -11,5 +11,6 @@ public interface IWindow {
     void addMessageToDialog(String message);
     void startBattle(Hero hero, GameCharacter enemy);
     void endBattle();
+    void showDeathMessage();
 
 }

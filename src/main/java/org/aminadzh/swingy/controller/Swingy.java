@@ -32,12 +32,16 @@ public class Swingy {
 
     private boolean battleMode;
 
+    private boolean godMode = false;
+
     private Swingy() {
 
     }
 
     public void startGame() {
         String viewMode = null;
+
+        window = null;
 
         while (true) {
             System.out.println("Choose game mode (\"console\" or \"gui\")");
@@ -65,10 +69,10 @@ public class Swingy {
     private void startLevel() {
         battleMode = false;
         //TODO: needed normal player initialization
-        hero = new Hero("Kek", "Mage");
+        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
 
         window.startLevel(hero);
-        updateMap();
+        window.updateMap(hero);
     }
 
     public static Swingy getInstance() {
@@ -82,10 +86,6 @@ public class Swingy {
         Swingy.getInstance().startGame();
     }
 
-    public void updateMap() {
-        //TODO: model update
-        window.updateMap(hero);
-    }
 
     public void onKeyInput(int command) {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
@@ -109,6 +109,8 @@ public class Swingy {
                     moveHeroUp();
                     window.updateMap(hero);
                     break;
+                case (80):
+                    godMode = !godMode;
                 default:
                     break;
             }
@@ -119,7 +121,7 @@ public class Swingy {
                 if (thereIsAnEnemy(hero.getPosX(), hero.getPosY())) {
                     window.addMessageToDialog(msg + hero.getName() + " has met an enemy");
                     battleMode = true;
-                    window.startBattle(hero, new Skeleton(1));
+                    window.startBattle(hero, new Skeleton(1, Skeleton.attackForLevel(1), Skeleton.defenceForLevel(1), Skeleton.hpForLevel(1)));
                 }
             }
         }
@@ -144,22 +146,35 @@ public class Swingy {
     }
 
     public void startBattle(Hero hero, GameCharacter enemy) {
+        window.endBattle();
+        battleMode = false;
+
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String msg = dtf.format(now) + ">> ";
         window.addMessageToDialog(msg + hero.getName() + " starting battle with " + enemy.getName());
         int counter = 1;
-        while (hero.getHitPoints() > 0 || enemy.getHitPoints() > 0) {
+        while (hero.getHitPoints() > 0 && enemy.getHitPoints() > 0) {
             if (counter % 2 == 0) {
                 attack(hero, enemy);
             } else {
-                attack(enemy, hero);
+                if (!godMode) {
+                    attack(enemy, hero);
+                }
             }
             counter++;
         }
-        window.endBattle();
-        battleMode = false;
-        window.updateHeroView(hero);
+
+        // Hero has won
+        if (hero.getHitPoints() > 0) {
+            hero.takeExperience(enemy.getMaxHitPoints());
+            window.addMessageToDialog(msg + hero.getName() + " has won " + enemy.getName());
+            window.updateHeroView(hero);
+        } else {
+            window.addMessageToDialog(msg + hero.getName() + " was defeated by " + enemy.getName());
+            window.showDeathMessage();
+//            startGame(); //TODO: redo this
+        }
     }
 
     private void attack(GameCharacter attacker, GameCharacter defender) {
@@ -176,6 +191,7 @@ public class Swingy {
 
         defender.takeDamage(attacker.getAttack());
         window.addMessageToDialog(msg + attacker.getName() + " hits for " + attacker.getAttack());
+        window.addMessageToDialog(msg + defender.getName() + "'s HP is " + defender.getHitPoints());
     }
 
     private boolean thereIsAnEnemy(int posX, int posY) {

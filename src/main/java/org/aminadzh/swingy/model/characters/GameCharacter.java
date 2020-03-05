@@ -3,11 +3,11 @@ package org.aminadzh.swingy.model.characters;
 public abstract class GameCharacter {
 
     private String name;
-    private int level = 1; //TODO: remove initialization
-    private int attack = 10;
-    private int defence = 2;
-    private int hitPoints = 100;
-    private int maxHitPoints = 100;
+    private int level;
+    private int attack;
+    private int defence;
+    private int hitPoints;
+    private int maxHitPoints;
     private int posX;
     private int posY;
 
@@ -15,9 +15,29 @@ public abstract class GameCharacter {
         this.name = name;
     }
 
+    public GameCharacter(String name, int level, int attack, int defence, int maxHitPoints) {
+        this.name = name;
+        this.level = level;
+        this.attack = attack;
+        this.defence = defence;
+        this.maxHitPoints = maxHitPoints;
+        hitPoints = maxHitPoints;
+    }
+
     public void takeDamage(int dmg) {
         if (dmg - defence > 0) {
             hitPoints -= dmg - defence;
+            hitPoints = hitPoints < 0 ? 0 : hitPoints;
+        }
+    }
+
+    protected void levelUp() {
+        level++;
+    }
+
+    public void heal() {
+        if (hitPoints < maxHitPoints) {
+            hitPoints++;
         }
     }
 
@@ -62,5 +82,21 @@ public abstract class GameCharacter {
     }
 
     abstract public String getSpriteFilePath();
+
+    protected void setAttack(int val) {
+        attack = val;
+    }
+
+    protected void setDefence(int val) {
+        defence = val;
+    }
+
+    protected void setHitPoints(int val) {
+        hitPoints = val;
+    }
+
+    protected void setMaxHitPoints(int val) {
+        maxHitPoints = val;
+    }
 
 }
