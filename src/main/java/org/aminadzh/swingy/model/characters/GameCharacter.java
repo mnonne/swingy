@@ -25,20 +25,24 @@ public abstract class GameCharacter {
     }
 
     public void takeDamage(int dmg) {
+        dmg = dmg - dmg / 100 * defence;
         if (dmg - defence > 0) {
-            hitPoints -= dmg - defence;
+            hitPoints -= dmg;
             hitPoints = hitPoints < 0 ? 0 : hitPoints;
         }
+    }
+
+    public void takePureDamage(int dmg) {
+        hitPoints -= dmg;
+        hitPoints = hitPoints < 0 ? 0 : hitPoints;
     }
 
     protected void levelUp() {
         level++;
     }
 
-    public void heal() {
-        if (hitPoints < maxHitPoints) {
-            hitPoints++;
-        }
+    protected void increaseHp(int amount) {
+        hitPoints += amount;
     }
 
     public int getLevel() {

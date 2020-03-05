@@ -1,10 +1,13 @@
 package org.aminadzh.swingy.model.characters;
+import org.aminadzh.swingy.model.items.Armor;
 import org.aminadzh.swingy.model.items.Item;
+import org.aminadzh.swingy.model.items.Shield;
+import org.aminadzh.swingy.model.items.Sword;
 
 public class Hero extends GameCharacter {
 
-    private long experience = 5;
-    private long expToNextLevel = 100;
+    private long experience = 0;
+    private long expToNextLevel = 0;
 
     private Item sword;
     private Item shield;
@@ -15,28 +18,42 @@ public class Hero extends GameCharacter {
     public Hero(String name, String specialization, int level, int attack, int defence, int maxHitPoints) {
         super(name, level, attack, defence, maxHitPoints);
         this.specialization = specialization;
-        int pos = ((getLevel() - 1) * 5 + 10 - (getLevel() % 2)) / 2 + 1;
-        System.out.println(pos);
-        this.setPosX(pos);
-        this.setPosY(pos);
         expToNextLevel = getLevel() * 1000 + (getLevel() - 1) * (getLevel() - 1) * 450;
     }
 
-    public void obtainSword(Item sword) {
+    public void resetPosition() {
+        int pos = ((getLevel() - 1) * 5 + 10 - (getLevel() % 2)) / 2 + 1;
+        this.setPosX(pos);
+        this.setPosY(pos);
+    }
+
+    private void obtainSword(Item sword) {
         this.sword = sword;
     }
 
-    public void obtainShield(Item shield) {
+    private void obtainShield(Item shield) {
         this.shield = shield;
     }
 
-    public void obtainArmor(Item armor) {
+    private void obtainArmor(Item armor) {
         this.armor = armor;
+    }
+
+    public void obtainItem(Item item) {
+        if (item instanceof Armor) {
+            obtainArmor(item);
+        } else if (item instanceof Sword) {
+            obtainSword(item);
+        } else if (item instanceof Shield) {
+            obtainShield(item);
+        }
     }
 
     public void takeDamage(int dmg) {
         if (armor != null) {
-            super.takeDamage(dmg - armor.getBonus());
+            float defence = (float)dmg / 100 * getDefence();
+            dmg = dmg - (int)Math.ceil(defence);
+            super.takePureDamage(dmg);
         } else {
             super.takeDamage(dmg);
         }
@@ -48,6 +65,12 @@ public class Hero extends GameCharacter {
             levelUp();
             experience = 0;
             calcNextLevel();
+        }
+    }
+
+    public void heal() {
+        if (getHitPoints() < getMaxHitPoints()) {
+            increaseHp(1);
         }
     }
 
@@ -72,7 +95,7 @@ public class Hero extends GameCharacter {
 
     public int getMaxHitPoints() {
         if (shield != null) {
-            return super.getHitPoints() + shield.getBonus();
+            return super.getMaxHitPoints() + shield.getBonus();
         }
         return super.getMaxHitPoints();
     }

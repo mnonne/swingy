@@ -3,6 +3,7 @@ package org.aminadzh.swingy.view.gui;
 import org.aminadzh.swingy.controller.Swingy;
 import org.aminadzh.swingy.model.characters.GameCharacter;
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.items.Item;
 import org.aminadzh.swingy.view.IWindow;
 
 import javax.swing.*;
@@ -69,6 +70,10 @@ public class GUIWindow extends JFrame implements IWindow {
 
     public void showDeathMessage() {
         DeathMessage popup = new DeathMessage(this);
+    }
+
+    public void itemDropDialog(Item item) {
+        ItemMessage popup = new ItemMessage(item, this);
     }
 
 

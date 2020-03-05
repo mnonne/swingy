@@ -15,11 +15,11 @@ public class Skeleton extends GameCharacter {
     }
 
     public static int defenceForLevel(int level) {
-        return level * 10 - level * 10 / 3;
+        return level * 10 - level * 10 / 6 * 5;
     }
 
     public static int hpForLevel(int level) {
-        return level * 100 - level * 100 / 3;
+        return level * 100 - level * 100 / 4 * 3;
     }
 
 }

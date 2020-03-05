@@ -3,9 +3,13 @@ package org.aminadzh.swingy.controller;
 import org.aminadzh.swingy.model.characters.GameCharacter;
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.model.characters.Skeleton;
+import org.aminadzh.swingy.model.items.Item;
 import org.aminadzh.swingy.model.items.armor.GlassArmor;
 import org.aminadzh.swingy.model.items.armor.LetherArmor;
+import org.aminadzh.swingy.model.items.armor.SteelArmor;
+import org.aminadzh.swingy.model.items.shields.DragonShield;
 import org.aminadzh.swingy.model.items.shields.HolyShield;
+import org.aminadzh.swingy.model.items.shields.WoodenShield;
 import org.aminadzh.swingy.model.items.swords.*;
 import org.aminadzh.swingy.view.IWindow;
 import org.aminadzh.swingy.view.gui.GUIWindow;
@@ -34,6 +38,8 @@ public class Swingy {
 
     private boolean godMode = false;
 
+    private int level = 1;
+
     private Swingy() {
 
     }
@@ -57,7 +63,7 @@ public class Swingy {
                 @Override
                 public void run() {
                     window = new GUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT);
-                    startLevel();
+                    startLevel(new Hero("Kek", "Mage", 1, 10, 3, 100));
                 }
             });
         }
@@ -66,10 +72,10 @@ public class Swingy {
         }
     }
 
-    private void startLevel() {
+    private void startLevel(Hero hero) {
         battleMode = false;
-        //TODO: needed normal player initialization
-        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
+        this.hero = hero;
+        this.hero.resetPosition();
 
         window.startLevel(hero);
         window.updateMap(hero);
@@ -115,16 +121,31 @@ public class Swingy {
                     break;
             }
 
-
             if (command >= MOVE_LEFT && command <= MOVE_DOWN) {
+                if (hero.getHitPoints() < hero.getMaxHitPoints()) {
+                    hero.heal();
+                    window.updateHeroView(hero);
+                }
+                if (outOfMap(hero)) {
+                    level++;
+                    startLevel(hero);
+                    return;
+                }
                 window.addMessageToDialog(msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY());
                 if (thereIsAnEnemy(hero.getPosX(), hero.getPosY())) {
                     window.addMessageToDialog(msg + hero.getName() + " has met an enemy");
                     battleMode = true;
-                    window.startBattle(hero, new Skeleton(1, Skeleton.attackForLevel(1), Skeleton.defenceForLevel(1), Skeleton.hpForLevel(1)));
+                    window.startBattle(hero, generateEnemy());
                 }
             }
         }
+    }
+
+    private GameCharacter generateEnemy() {
+        Random rand = new Random();
+        int nb = rand.nextInt(level) + 1;
+
+        return new Skeleton(nb, Skeleton.attackForLevel(nb), Skeleton.defenceForLevel(nb), Skeleton.hpForLevel(nb));
     }
 
     public void tryToEscape(GameCharacter enemy) {
@@ -169,12 +190,71 @@ public class Swingy {
         if (hero.getHitPoints() > 0) {
             hero.takeExperience(enemy.getMaxHitPoints());
             window.addMessageToDialog(msg + hero.getName() + " has won " + enemy.getName());
+
+            Item item = checkDropp(enemy);
+            if (item != null) {
+                window.itemDropDialog(item);
+            }
+
             window.updateHeroView(hero);
         } else {
             window.addMessageToDialog(msg + hero.getName() + " was defeated by " + enemy.getName());
+            window.updateHeroView(hero);
             window.showDeathMessage();
 //            startGame(); //TODO: redo this
         }
+    }
+
+    private Item checkDropp(GameCharacter enemy) {
+        Random rand = new Random();
+        int upperbound = 3; // Rate of dropping is 1/3
+        if (rand.nextInt(upperbound) == 2) {
+            int random = rand.nextInt(upperbound);
+            switch (random) {
+                case 0:
+                    return generateArmor(enemy.getLevel());
+                case 1:
+                    return generateWeapon(enemy.getLevel());
+                case 2:
+                    return generateShield(enemy.getLevel());
+            }
+        }
+
+        return null;
+    }
+
+    public void userAgreedItem(Item item) {
+        hero.obtainItem(item);
+        window.updateHeroView(hero);
+    }
+
+    private Item generateArmor(int lvl) {
+        if (lvl < 4) {
+            return new LetherArmor();
+        } else if (lvl < 7) {
+            return new SteelArmor();
+        }
+        return new GlassArmor();
+    }
+
+    private Item generateWeapon(int lvl) {
+        if (lvl < 4) {
+            return new RustySword();
+        } else if (lvl < 7) {
+            return new SteelSword();
+        } else if (lvl < 11) {
+            return new GrassSword();
+        }
+        return new BloodSword();
+    }
+
+    private Item generateShield(int lvl) {
+        if (lvl < 4) {
+            return new WoodenShield();
+        } else if (lvl < 7) {
+            return new DragonShield();
+        }
+        return new HolyShield();
     }
 
     private void attack(GameCharacter attacker, GameCharacter defender) {
@@ -208,27 +288,37 @@ public class Swingy {
     }
 
     private void moveHeroRight() {
-        if (hero.getPosX() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
+//        if (hero.getPosX() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
             hero.moveRight();
-        }
+//        }
     }
 
     private void moveHeroLeft() {
-        if (hero.getPosX() > 1) {
+//        if (hero.getPosX() > 1) {
             hero.moveLeft();
-        }
+//        }
     }
 
     private void moveHeroDown() {
-        if (hero.getPosY() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
+//        if (hero.getPosY() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
             hero.moveDown();
-        }
+//        }
     }
 
     private void moveHeroUp() {
-        if (hero.getPosY() > 1) {
+//        if (hero.getPosY() > 1) {
             hero.moveUp();
+//        }
+    }
+
+    private boolean outOfMap(Hero hero) {
+        int mapSize = (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2);
+        int posX = hero.getPosX();
+        int posY = hero.getPosY();
+        if (posX > mapSize || posX <= 0 || posY > mapSize || posY <= 0 ) {
+            return true;
         }
+        return false;
     }
 
 }
