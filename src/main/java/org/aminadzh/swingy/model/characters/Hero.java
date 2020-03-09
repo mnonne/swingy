@@ -3,17 +3,26 @@ import org.aminadzh.swingy.model.items.Armor;
 import org.aminadzh.swingy.model.items.Item;
 import org.aminadzh.swingy.model.items.Shield;
 import org.aminadzh.swingy.model.items.Sword;
+import javax.persistence.*;
 
+@Entity
 public class Hero extends GameCharacter {
 
     private long experience = 0;
     private long expToNextLevel = 0;
 
+    @Transient
     private Item sword;
+    @Transient
     private Item shield;
+    @Transient
     private Item armor;
 
     private String specialization;
+
+    public Hero() {
+        super();
+    }
 
     public Hero(String name, String specialization, int level, int attack, int defence, int maxHitPoints) {
         super(name, level, attack, defence, maxHitPoints);
@@ -27,25 +36,25 @@ public class Hero extends GameCharacter {
         this.setPosY(pos);
     }
 
-    private void obtainSword(Item sword) {
+    private void setSword(Item sword) {
         this.sword = sword;
     }
 
-    private void obtainShield(Item shield) {
+    private void setShield(Item shield) {
         this.shield = shield;
     }
 
-    private void obtainArmor(Item armor) {
+    private void setArmor(Item armor) {
         this.armor = armor;
     }
 
     public void obtainItem(Item item) {
         if (item instanceof Armor) {
-            obtainArmor(item);
+            setArmor(item);
         } else if (item instanceof Sword) {
-            obtainSword(item);
+            setSword(item);
         } else if (item instanceof Shield) {
-            obtainShield(item);
+            setShield(item);
         }
     }
 

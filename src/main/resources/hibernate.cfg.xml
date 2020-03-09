@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+    <session-factory>
+
+        <property name="dialect">
+            org.hibernate.dialect.H2Dialect
+        </property>
+
+        <property name="cache.provider_class">
+            org.hibernate.cache.internal.NoCacheProvider
+        </property>
+
+        <property name = "hibernate.connection.driver_class">
+            org.h2.Driver
+        </property>
+
+        <!-- Assume test is the database name -->
+
+        <property name = "hibernate.connection.url">
+            jdbc:h2:./sav
+        </property>
+
+        <property name = "hibernate.connection.username">
+            sa
+        </property>
+
+        <property name = "hibernate.connection.password">
+
+        </property>
+
+        <property name="hibernate.default_schema">
+            PUBLIC
+        </property>
+
+        <property name="connection.pool_size">
+            1
+        </property>
+
+        <!-- Create schema if it doesn't exist, update otherwise -->
+        <property name="hbm2ddl.auto">
+            update
+        </property>
+
+        <!-- List of XML mapping files -->
+        <mapping class="org.aminadzh.swingy.model.characters.Hero" />
+
+        <mapping class="org.aminadzh.swingy.model.characters.GameCharacter" />
+
+    </session-factory>
+</hibernate-configuration>

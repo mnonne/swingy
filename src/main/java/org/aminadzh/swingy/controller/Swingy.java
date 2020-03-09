@@ -17,10 +17,13 @@ import org.aminadzh.swingy.view.gui.GUIWindow;
 import java.time.format.DateTimeFormatter;
 import java.time.LocalDateTime;
 import javax.swing.SwingUtilities;
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
 public class Swingy {
+
+    private SaveManager saveManager;
 
     private static Swingy instance; // For singleton
     private IWindow window;
@@ -41,7 +44,7 @@ public class Swingy {
     private int level = 1;
 
     private Swingy() {
-
+        saveManager = new SaveManager();
     }
 
     public void startGame() {
@@ -63,13 +66,22 @@ public class Swingy {
                 @Override
                 public void run() {
                     window = new GUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT);
-                    startLevel(new Hero("Kek", "Mage", 1, 10, 3, 100));
+                    hero = chooseHero();
+                    startLevel(hero);
                 }
             });
         }
         else {
             System.out.println("Not implemented yet"); // TODO: needs implementation
         }
+    }
+
+    private Hero chooseHero() {
+        ArrayList<Hero> heroes;
+
+        heroes = saveManager.loadSaves();
+
+        return new Hero("Kek", "Mage", 1, 10, 3, 100);
     }
 
     private void startLevel(Hero hero) {

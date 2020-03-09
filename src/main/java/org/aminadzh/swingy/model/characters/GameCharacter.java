@@ -1,15 +1,30 @@
 package org.aminadzh.swingy.model.characters;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "heroes")
 public abstract class GameCharacter {
 
+    @Id @GeneratedValue
+    @Column(name = "id")
+    private int id;
+    @Column(name = "name")
     private String name;
+    @Column(name = "level")
     private int level;
+    @Column(name = "attack")
     private int attack;
+    @Column(name = "defence")
     private int defence;
+    @Column(name = "hitPoints")
     private int hitPoints;
-    private int maxHitPoints;
     private int posX;
+    @Column(name = "maxHitPoints")
+    private int maxHitPoints;
     private int posY;
+
+    public GameCharacter() {}
 
     public GameCharacter(String name) {
         this.name = name;
@@ -45,20 +60,32 @@ public abstract class GameCharacter {
         hitPoints += amount;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getId() {
+        return id;
+    }
+
     public int getLevel() {
         return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 
     public int getPosX() {
         return posX;
     }
 
-    public int getPosY() {
-        return posY;
-    }
-
     public void setPosX(int posX) {
         this.posX = posX;
+    }
+
+    public int getPosY() {
+        return posY;
     }
 
     public void setPosY(int posY) {
@@ -69,38 +96,42 @@ public abstract class GameCharacter {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getMaxHitPoints() {
         return maxHitPoints;
+    }
+
+    protected void setMaxHitPoints(int val) {
+        maxHitPoints = val;
     }
 
     public int getHitPoints() {
         return hitPoints;
     }
 
+    protected void setHitPoints(int val) {
+        hitPoints = val;
+    }
+
     public int getAttack() {
         return attack;
+    }
+
+    protected void setAttack(int val) {
+        attack = val;
     }
 
     public int getDefence() {
         return defence;
     }
 
-    abstract public String getSpriteFilePath();
-
-    protected void setAttack(int val) {
-        attack = val;
-    }
-
     protected void setDefence(int val) {
         defence = val;
     }
 
-    protected void setHitPoints(int val) {
-        hitPoints = val;
-    }
-
-    protected void setMaxHitPoints(int val) {
-        maxHitPoints = val;
-    }
+    abstract public String getSpriteFilePath();
 
 }
