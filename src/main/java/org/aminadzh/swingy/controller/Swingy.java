@@ -77,7 +77,7 @@ public class Swingy {
         this.hero = hero;
         this.hero.resetPosition();
 
-        window.startLevel(hero);
+        window.startLevel(hero, level);
         window.updateMap(hero);
     }
 
@@ -288,27 +288,19 @@ public class Swingy {
     }
 
     private void moveHeroRight() {
-//        if (hero.getPosX() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
             hero.moveRight();
-//        }
     }
 
     private void moveHeroLeft() {
-//        if (hero.getPosX() > 1) {
             hero.moveLeft();
-//        }
     }
 
     private void moveHeroDown() {
-//        if (hero.getPosY() < (hero.getLevel() - 1) * 5 + 10 - (hero.getLevel() % 2)) {
             hero.moveDown();
-//        }
     }
 
     private void moveHeroUp() {
-//        if (hero.getPosY() > 1) {
             hero.moveUp();
-//        }
     }
 
     private boolean outOfMap(Hero hero) {

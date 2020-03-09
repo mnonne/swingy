@@ -30,7 +30,8 @@ public class GUIWindow extends JFrame implements IWindow {
         setVisible(true);
     }
 
-    public void startLevel(Hero hero) {
+    public void startLevel(Hero hero, int lvl) {
+        LevelMessage lvlMessage = new LevelMessage(hero, lvl, this);
         gameBoard = new GameBoard(hero);
         gameBoard.setPreferredSize(new Dimension(width, height));
         add(gameBoard);

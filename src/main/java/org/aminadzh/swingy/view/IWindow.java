@@ -6,7 +6,7 @@ import org.aminadzh.swingy.model.items.Item;
 
 public interface IWindow {
 
-    void startLevel(Hero hero);
+    void startLevel(Hero hero, int lvl);
     void updateMap(Hero hero);
     void updateHeroView(Hero hero);
     void addMessageToDialog(String message);
