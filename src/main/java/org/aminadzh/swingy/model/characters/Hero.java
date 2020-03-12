@@ -6,6 +6,7 @@ import org.aminadzh.swingy.model.items.Sword;
 import javax.persistence.*;
 
 @Entity
+@DiscriminatorValue(value = "hero")
 public class Hero extends GameCharacter {
 
     private long experience = 0;

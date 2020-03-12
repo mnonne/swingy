@@ -81,6 +81,15 @@ public class Swingy {
 
         heroes = saveManager.loadSaves();
 
+        if (heroes.size() > 0) {
+//            try {
+            for (Hero h : heroes)
+                System.out.println("Hero: " + h.getName());
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+        }
+
         return new Hero("Kek", "Mage", 1, 10, 3, 100);
     }
 
@@ -91,6 +100,11 @@ public class Swingy {
 
         window.startLevel(hero, level);
         window.updateMap(hero);
+    }
+
+    private void nextLevel(Hero hero) {
+        saveManager.save(hero);
+        startLevel(hero);
     }
 
     public static Swingy getInstance() {
@@ -140,7 +154,7 @@ public class Swingy {
                 }
                 if (outOfMap(hero)) {
                     level++;
-                    startLevel(hero);
+                    nextLevel(hero);
                     return;
                 }
                 window.addMessageToDialog(msg + hero.getName() + " has moved to X: " + hero.getPosX() + " Y: " + hero.getPosY());

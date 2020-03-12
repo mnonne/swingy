@@ -37,7 +37,7 @@
         </property>
 
         <property name="connection.pool_size">
-            1
+            100
         </property>
 
         <!-- Create schema if it doesn't exist, update otherwise -->
