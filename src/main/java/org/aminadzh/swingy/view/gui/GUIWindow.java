@@ -87,8 +87,6 @@ public class GUIWindow extends JFrame implements IWindow {
 
         @Override
         public void keyReleased(KeyEvent e) {
-            System.out.println("key="+KeyEvent.getKeyText(e.getKeyCode()));
-            System.out.println(e.getKeyCode());
             Swingy.getInstance().onKeyInput(e.getKeyCode());
         }
 

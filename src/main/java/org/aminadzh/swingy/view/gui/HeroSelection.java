@@ -2,6 +2,7 @@ package org.aminadzh.swingy.view.gui;
 
 import org.aminadzh.swingy.controller.Swingy;
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.characters.HeroFactory;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -17,7 +18,9 @@ public class HeroSelection extends JDialog implements ChangeListener {
 
     private JPanel mainPanel, createHero, west, center, east;
     private JRadioButton warrior, mage, rogue;
+    private JButton ok;
     private ButtonGroup group;
+    private JTextField nameField;
 
     private final  int boxHeight = 155;
 
@@ -58,7 +61,7 @@ public class HeroSelection extends JDialog implements ChangeListener {
         JLabel nameLabel = new JLabel("Name");
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
         west.add(nameLabel);
-        JTextField nameField = new JTextField(10);
+        nameField = new JTextField(10);
         west.add(nameField);
         createHero.add(west, BorderLayout.WEST);
         // Class selection
@@ -85,13 +88,8 @@ public class HeroSelection extends JDialog implements ChangeListener {
         center.add(warrior);
         center.add(rogue);
         center.add(mage);
-        JButton ok = new JButton("OK");
-        ok.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-
-            }
-        });
+        ok = new JButton("OK");
+        ok.addChangeListener(this);
         center.add(ok);
 
         createHero.add(center, BorderLayout.CENTER);
@@ -106,16 +104,41 @@ public class HeroSelection extends JDialog implements ChangeListener {
     public void stateChanged(ChangeEvent event) {
         AbstractButton aButton = (AbstractButton)event.getSource();
         ButtonModel aModel = aButton.getModel();
-
         if (aModel.isSelected() && aModel.isArmed() && aModel.isPressed()) {
             if (warrior.isSelected()) {
+                System.out.println("Warrior");
                 //TODO: selection of warrior image
             } else if (mage.isSelected()) {
+                System.out.println("Mage");
                 //TODO: selection of mage image
             } else if (rogue.isSelected()) {
+                System.out.println("Rogue");
                 //TODO: selection of rogue image
             }
+        } else if (aModel.isPressed() && aButton.equals(ok)) {
+            if (onHeroCreation()) {
+                dispose();
+            }
         }
+    }
+
+    private boolean onHeroCreation() {
+        String nameText = nameField.getText();
+        if (nameText.isEmpty()) {
+            return false;
+        }
+        int specialization = 1;
+        if (warrior.isSelected()) {
+            specialization = Hero.WARRIOR;
+        } else if (mage.isSelected()) {
+            specialization = Hero.MAGE;
+        } else if (rogue.isSelected()) {
+            specialization = Hero.ROGUE;
+        }
+        if (nameText.length() > 10) nameText = nameText.substring(0, 10);
+        Hero hero = HeroFactory.createHero(nameText, specialization);
+        Swingy.getInstance().startLevel(hero);
+        return true;
     }
 
 }

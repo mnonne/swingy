@@ -67,8 +67,6 @@ public class Swingy {
                 public void run() {
                     window = new GUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT);
                     chooseHero();
-                    System.out.println("new hero id " + hero.getId());
-                    startLevel(hero);
                 }
             });
         }
@@ -92,7 +90,7 @@ public class Swingy {
 //            }
         }
 
-        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
+//        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
     }
 
     public void startLevel(Hero hero) {

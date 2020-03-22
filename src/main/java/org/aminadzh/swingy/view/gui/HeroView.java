@@ -71,7 +71,7 @@ public class HeroView extends JPanel {
         avatarCaption.setAlignmentX(Component.CENTER_ALIGNMENT);
         add(avatarCaption);
 
-        specialization = new JLabel("CLASS: " + hero.getSpecialization());
+        specialization = new JLabel("CLASS: " + hero.getStringSpecialization());
         specialization.setFont(font);
         specialization.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
         specialization.setAlignmentX(Component.CENTER_ALIGNMENT);

@@ -18,14 +18,18 @@ public class Hero extends GameCharacter {
     private Item shield;
     @Transient
     private Item armor;
+    @Column(name = "specialization")
+    private int specialization;
 
-    private String specialization;
+    static public final int WARRIOR = 0;
+    static public final int MAGE = 1;
+    static public final int ROGUE = 2;
 
     public Hero() {
         super();
     }
 
-    public Hero(String name, String specialization, int level, int attack, int defence, int maxHitPoints) {
+    public Hero(String name, int specialization, int level, int attack, int defence, int maxHitPoints) {
         super(name, level, attack, defence, maxHitPoints);
         this.specialization = specialization;
         expToNextLevel = getLevel() * 1000 + (getLevel() - 1) * (getLevel() - 1) * 450;
@@ -82,6 +86,14 @@ public class Hero extends GameCharacter {
         if (getHitPoints() < getMaxHitPoints()) {
             increaseHp(1);
         }
+    }
+
+    public int getSpecialization() {
+        return specialization;
+    }
+
+    public void setSpecialization(int specialization) {
+        this.specialization = specialization;
     }
 
     public Item getSword() {
@@ -153,8 +165,17 @@ public class Hero extends GameCharacter {
         setPosY(getPosY() + 1);
     }
 
-    public String getSpecialization() {
-        return specialization;
+    public String getStringSpecialization() {
+        switch (specialization) {
+            case WARRIOR:
+                return "Warrior";
+            case MAGE:
+                return "Mage";
+            case ROGUE:
+                return "Rogue";
+            default:
+                return "";
+        }
     }
 
     public String getSpriteFilePath() {
