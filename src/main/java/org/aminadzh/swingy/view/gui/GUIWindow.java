@@ -10,6 +10,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 
 public class GUIWindow extends JFrame implements IWindow {
 
@@ -47,6 +48,10 @@ public class GUIWindow extends JFrame implements IWindow {
             battleView.dispose();
             battleView = null;
         }
+    }
+
+    public void showHeroSelectionPanel(ArrayList<Hero> heroes) {
+        HeroSelection hs = new HeroSelection(heroes, this);
     }
 
     public static int getWindowWidth() {

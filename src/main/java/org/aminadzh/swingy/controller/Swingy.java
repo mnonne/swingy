@@ -66,7 +66,8 @@ public class Swingy {
                 @Override
                 public void run() {
                     window = new GUIWindow("Swingy", WIN_WIDTH, WIN_HEIGHT);
-                    hero = chooseHero();
+                    chooseHero();
+                    System.out.println("new hero id " + hero.getId());
                     startLevel(hero);
                 }
             });
@@ -76,24 +77,25 @@ public class Swingy {
         }
     }
 
-    private Hero chooseHero() {
+    private void chooseHero() {
         ArrayList<Hero> heroes;
 
         heroes = saveManager.loadSaves();
+        window.showHeroSelectionPanel(heroes);
 
         if (heroes.size() > 0) {
 //            try {
             for (Hero h : heroes)
-                System.out.println("Hero: " + h.getName());
+                System.out.println("Hero: " + h.getName() + " id: " + h.getId());
 //            } catch (Exception e) {
 //                e.printStackTrace();
 //            }
         }
 
-        return new Hero("Kek", "Mage", 1, 10, 3, 100);
+        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
     }
 
-    private void startLevel(Hero hero) {
+    public void startLevel(Hero hero) {
         battleMode = false;
         this.hero = hero;
         this.hero.resetPosition();

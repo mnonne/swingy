@@ -4,6 +4,8 @@ import org.aminadzh.swingy.model.characters.GameCharacter;
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.model.items.Item;
 
+import java.util.ArrayList;
+
 public interface IWindow {
 
     void startLevel(Hero hero, int lvl);
@@ -14,5 +16,6 @@ public interface IWindow {
     void endBattle();
     void showDeathMessage();
     void itemDropDialog(Item item);
+    void showHeroSelectionPanel(ArrayList<Hero> heroes);
 
 }
