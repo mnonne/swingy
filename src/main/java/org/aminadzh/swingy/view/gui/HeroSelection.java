@@ -5,19 +5,18 @@ import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.model.characters.HeroFactory;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class HeroSelection extends JDialog implements ChangeListener {
 
     private JPanel mainPanel, createHero, west, center, east;
     private JRadioButton warrior, mage, rogue;
+    private Vector<JButton> oks;
     private JButton ok;
     private ButtonGroup group;
     private JTextField nameField;
@@ -29,19 +28,93 @@ public class HeroSelection extends JDialog implements ChangeListener {
         setSize(new Dimension(600, 600));
         setResizable(false);
 
+        oks = new Vector<>();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
         initHeroCreation();
 
-        JPanel chooseHero = new JPanel();
-        chooseHero.setPreferredSize(new Dimension(300, 300));
-        mainPanel.add(chooseHero);
+        for (Hero hero : heroes) {
+            createHeroView(hero);
+        }
 
         add(mainPanel);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
+    }
+
+    private void createHeroView(Hero hero) {
+        JPanel heroView = new JPanel();
+        heroView.setPreferredSize(new Dimension(getWidth(), boxHeight));
+        heroView.setMaximumSize(new Dimension(getWidth(), boxHeight));
+        heroView.setLayout(new BorderLayout());
+        JLabel name = new JLabel(hero.getName());
+        name.setFont(new Font("Arial", Font.BOLD, 15));
+        name.setHorizontalAlignment(JLabel.CENTER);
+        name.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        heroView.add(name, BorderLayout.NORTH);
+
+        GUIView avatar = new GUIView(120, 120, hero.getSpriteFilePath());
+        heroView.add(avatar, BorderLayout.WEST);
+
+        JPanel description = new JPanel();
+        JPanel left = new JPanel();
+        description.setLayout(new GridLayout(0, 2));
+        Font labelFont = new Font("Arial", Font.PLAIN, 15);
+        JLabel specialization = new JLabel("CLASS: " + hero.getStringSpecialization());
+        specialization.setFont(labelFont);
+        specialization.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(specialization);
+        JLabel level = new JLabel("LVL: " + hero.getLevel());
+        level.setFont(labelFont);
+        level.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(level);
+        JLabel hitPoints = new JLabel("HP: " + hero.getHitPoints() + "/" + hero.getMaxHitPoints());
+        hitPoints.setFont(labelFont);
+        hitPoints.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(hitPoints);
+        JLabel exp = new JLabel("EXP: " + hero.getExperience());
+        exp.setFont(labelFont);
+        exp.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(exp);
+        JLabel attack = new JLabel("ATK: " + hero.getAttack());
+        attack.setFont(labelFont);
+        attack.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(attack);
+        JLabel defence = new JLabel("DEF: " + hero.getDefence());
+        defence.setFont(labelFont);
+        defence.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(defence);
+        oks.add(new JButton("OK"));
+        oks.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        description.add(oks.lastElement());
+
+        JPanel items = new JPanel();
+        items.setLayout(new BoxLayout(items, BoxLayout.Y_AXIS));
+        if (hero.getSword() != null) {
+            GUIView sword = new GUIView(60, 60, hero.getSword().getSpriteFilePath());
+            sword.setMinimumSize(new Dimension(60, 60));
+            sword.setMaximumSize(new Dimension(60, 60));
+            items.add(sword);
+        }
+        if (hero.getArmor() != null) {
+            GUIView armor = new GUIView(60, 60, hero.getArmor().getSpriteFilePath());
+            armor.setMinimumSize(new Dimension(60, 60));
+            armor.setMaximumSize(new Dimension(60, 60));
+            items.add(armor);
+        }
+        if (hero.getShield() != null) {
+            GUIView shield = new GUIView(60, 60, hero.getShield().getSpriteFilePath());
+            shield.setMinimumSize(new Dimension(60, 60));
+            shield.setMaximumSize(new Dimension(60, 60));
+            items.add(shield);
+        }
+
+        heroView.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
+        heroView.add(description, BorderLayout.CENTER);
+        heroView.add(items, BorderLayout.EAST);
+        mainPanel.add(heroView);
     }
 
     private void initHeroCreation() {
@@ -57,13 +130,13 @@ public class HeroSelection extends JDialog implements ChangeListener {
         createHeroLabel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         createHero.add(createHeroLabel, BorderLayout.NORTH);
         // Name text field
-        west = new JPanel();
+        east = new JPanel();
         JLabel nameLabel = new JLabel("Name");
         nameLabel.setFont(new Font("Arial", Font.PLAIN, 15));
-        west.add(nameLabel);
+        east.add(nameLabel);
         nameField = new JTextField(10);
-        west.add(nameField);
-        createHero.add(west, BorderLayout.WEST);
+        east.add(nameField);
+        createHero.add(east, BorderLayout.EAST);
         // Class selection
         center = new JPanel();
         center.setLayout(new BoxLayout(center, BoxLayout.Y_AXIS));
@@ -94,10 +167,10 @@ public class HeroSelection extends JDialog implements ChangeListener {
 
         createHero.add(center, BorderLayout.CENTER);
 
-        east = new JPanel();
+        west = new JPanel();
         GUIView avatar = new GUIView(120, 120, "./assets/mage.png");
-        east.add(avatar);
-        createHero.add(east, BorderLayout.EAST);
+        west.add(avatar);
+        createHero.add(west, BorderLayout.WEST);
         mainPanel.add(createHero);
     }
 
