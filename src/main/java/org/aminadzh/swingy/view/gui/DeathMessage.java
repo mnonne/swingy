@@ -37,6 +37,7 @@ public class DeathMessage extends JDialog implements ActionListener {
 
     public void actionPerformed(ActionEvent e) {
         dispose();
+        System.exit(0);
     }
 
 }

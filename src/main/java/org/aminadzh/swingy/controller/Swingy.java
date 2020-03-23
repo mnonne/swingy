@@ -231,7 +231,7 @@ public class Swingy {
             window.addMessageToDialog(msg + hero.getName() + " was defeated by " + enemy.getName());
             window.updateHeroView(hero);
             window.showDeathMessage();
-//            startGame(); //TODO: redo this
+            saveManager.deleteHero(hero);
         }
     }
 

@@ -18,8 +18,8 @@ public class HeroSelection extends JDialog implements ChangeListener {
     private JPanel mainPanel, createHero, west, center, east;
     private JScrollPane scrollPane;
     private JRadioButton warrior, mage, rogue;
+    private Vector<JPanel> heroBox;
     private Vector<JButton> oks;
-    private Vector<JButton> delete;
     private JButton ok;
     private ButtonGroup group;
     private JTextField nameField;
@@ -35,7 +35,7 @@ public class HeroSelection extends JDialog implements ChangeListener {
         setResizable(false);
 
         oks = new Vector<>();
-        delete = new Vector<>();
+        heroBox = new Vector<>();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -55,18 +55,19 @@ public class HeroSelection extends JDialog implements ChangeListener {
     }
 
     private void createHeroView(Hero hero) {
-        JPanel heroView = new JPanel();
-        heroView.setPreferredSize(new Dimension(getWidth(), boxHeight));
-        heroView.setMaximumSize(new Dimension(getWidth(), boxHeight));
-        heroView.setLayout(new BorderLayout());
+//        JPanel heroView = new JPanel();
+        heroBox.add(new JPanel());
+        heroBox.lastElement().setPreferredSize(new Dimension(getWidth(), boxHeight));
+        heroBox.lastElement().setMaximumSize(new Dimension(getWidth(), boxHeight));
+        heroBox.lastElement().setLayout(new BorderLayout());
         JLabel name = new JLabel(hero.getName());
         name.setFont(new Font("Arial", Font.BOLD, 15));
         name.setHorizontalAlignment(JLabel.CENTER);
         name.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 20));
-        heroView.add(name, BorderLayout.NORTH);
+        heroBox.lastElement().add(name, BorderLayout.NORTH);
 
         GUIView avatar = new GUIView(120, 120, hero.getSpriteFilePath());
-        heroView.add(avatar, BorderLayout.WEST);
+        heroBox.lastElement().add(avatar, BorderLayout.WEST);
 
         JPanel description = new JPanel();
         GridLayout gridLayout = new GridLayout(0, 2);
@@ -102,10 +103,6 @@ public class HeroSelection extends JDialog implements ChangeListener {
         oks.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         oks.lastElement().addChangeListener(this);
         description.add(oks.lastElement());
-        delete.add(new JButton("DELETE"));
-        delete.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        delete.lastElement().addChangeListener(this);
-        description.add(delete.lastElement());
 
         JPanel items = new JPanel();
         items.setPreferredSize(new Dimension(this.getWidth() / 3, this.getHeight()));
@@ -142,9 +139,9 @@ public class HeroSelection extends JDialog implements ChangeListener {
             items.add(gap);
         }
 
-        heroView.add(description, BorderLayout.CENTER);
-        heroView.add(items, BorderLayout.EAST);
-        mainPanel.add(heroView);
+        heroBox.lastElement().add(description, BorderLayout.CENTER);
+        heroBox.lastElement().add(items, BorderLayout.EAST);
+        mainPanel.add(heroBox.lastElement());
     }
 
     private void initHeroCreation() {
@@ -230,10 +227,6 @@ public class HeroSelection extends JDialog implements ChangeListener {
                 if (ok.equals(aButton) && aModel.isPressed()) {
                     Swingy.getInstance().startLevel(heroes.get(i));
                     dispose();
-                }
-                JButton del = delete.get(i);
-                if (del.equals(aButton) && aModel.isPressed()) {
-                    Swingy.getInstance().deleteHero(heroes.get(i));
                 }
             }
         }
