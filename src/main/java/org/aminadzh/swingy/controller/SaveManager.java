@@ -60,4 +60,12 @@ public class SaveManager {
         thread.start();
     }
 
+    void deleteHero(Hero hero) {
+        System.out.println("deleting " + hero.getName());
+        Session session = sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        session.delete(hero);
+        transaction.commit();
+    }
+
 }

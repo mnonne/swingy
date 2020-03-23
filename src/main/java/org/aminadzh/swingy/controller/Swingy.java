@@ -75,6 +75,10 @@ public class Swingy {
         }
     }
 
+    public void deleteHero(Hero hero) {
+        saveManager.deleteHero(hero);
+    }
+
     private void chooseHero() {
         ArrayList<Hero> heroes;
 

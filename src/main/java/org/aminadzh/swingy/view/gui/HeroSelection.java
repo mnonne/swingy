@@ -1,5 +1,6 @@
 package org.aminadzh.swingy.view.gui;
 
+import org.aminadzh.swingy.controller.SaveManager;
 import org.aminadzh.swingy.controller.Swingy;
 import org.aminadzh.swingy.model.characters.Hero;
 import org.aminadzh.swingy.model.characters.HeroFactory;
@@ -18,6 +19,7 @@ public class HeroSelection extends JDialog implements ChangeListener {
     private JScrollPane scrollPane;
     private JRadioButton warrior, mage, rogue;
     private Vector<JButton> oks;
+    private Vector<JButton> delete;
     private JButton ok;
     private ButtonGroup group;
     private JTextField nameField;
@@ -33,6 +35,7 @@ public class HeroSelection extends JDialog implements ChangeListener {
         setResizable(false);
 
         oks = new Vector<>();
+        delete = new Vector<>();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
 
@@ -66,7 +69,10 @@ public class HeroSelection extends JDialog implements ChangeListener {
         heroView.add(avatar, BorderLayout.WEST);
 
         JPanel description = new JPanel();
-        description.setLayout(new GridLayout(0, 2));
+        GridLayout gridLayout = new GridLayout(0, 2);
+        gridLayout.setHgap(10);
+        gridLayout.setVgap(10);
+        description.setLayout(gridLayout);
         Font labelFont = new Font("Arial", Font.PLAIN, 15);
         JLabel specialization = new JLabel("CLASS: " + hero.getStringSpecialization());
         specialization.setFont(labelFont);
@@ -93,9 +99,13 @@ public class HeroSelection extends JDialog implements ChangeListener {
         defence.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
         description.add(defence);
         oks.add(new JButton("OK"));
-        oks.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        oks.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         oks.lastElement().addChangeListener(this);
         description.add(oks.lastElement());
+        delete.add(new JButton("DELETE"));
+        delete.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+        delete.lastElement().addChangeListener(this);
+        description.add(delete.lastElement());
 
         JPanel items = new JPanel();
         items.setPreferredSize(new Dimension(this.getWidth() / 3, this.getHeight()));
@@ -216,10 +226,14 @@ public class HeroSelection extends JDialog implements ChangeListener {
             }
         } else {
             for (int i = 0; i < oks.size(); i++) {
-                JButton button = oks.get(i);
-                if (button.equals(aButton) && aModel.isPressed()) {
+                JButton ok = oks.get(i);
+                if (ok.equals(aButton) && aModel.isPressed()) {
                     Swingy.getInstance().startLevel(heroes.get(i));
                     dispose();
+                }
+                JButton del = delete.get(i);
+                if (del.equals(aButton) && aModel.isPressed()) {
+                    Swingy.getInstance().deleteHero(heroes.get(i));
                 }
             }
         }
