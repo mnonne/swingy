@@ -35,13 +35,6 @@ public class HeroSelection extends JDialog implements ChangeListener {
         oks = new Vector<>();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setPreferredSize(new Dimension(600, 600));
-
-        scrollPane = new JScrollPane(mainPanel,
-                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
-                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setPreferredSize(new Dimension(600, 600));
-        add(scrollPane);
 
         initHeroCreation();
 
@@ -49,7 +42,10 @@ public class HeroSelection extends JDialog implements ChangeListener {
             createHeroView(hero);
         }
 
-        add(mainPanel);
+        scrollPane = new JScrollPane(mainPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        getContentPane().add(scrollPane);
         setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
@@ -63,14 +59,13 @@ public class HeroSelection extends JDialog implements ChangeListener {
         JLabel name = new JLabel(hero.getName());
         name.setFont(new Font("Arial", Font.BOLD, 15));
         name.setHorizontalAlignment(JLabel.CENTER);
-        name.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        name.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 20));
         heroView.add(name, BorderLayout.NORTH);
 
         GUIView avatar = new GUIView(120, 120, hero.getSpriteFilePath());
         heroView.add(avatar, BorderLayout.WEST);
 
         JPanel description = new JPanel();
-        JPanel left = new JPanel();
         description.setLayout(new GridLayout(0, 2));
         Font labelFont = new Font("Arial", Font.PLAIN, 15);
         JLabel specialization = new JLabel("CLASS: " + hero.getStringSpecialization());
@@ -160,6 +155,9 @@ public class HeroSelection extends JDialog implements ChangeListener {
         east.add(nameLabel);
         nameField = new JTextField(10);
         east.add(nameField);
+        JPanel gap = new JPanel();
+        gap.setPreferredSize(new Dimension(40, 40));
+        east.add(gap);
         createHero.add(east, BorderLayout.EAST);
         // Class selection
         center = new JPanel();
