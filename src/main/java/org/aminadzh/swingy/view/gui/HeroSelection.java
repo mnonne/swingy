@@ -15,22 +15,33 @@ import java.util.Vector;
 public class HeroSelection extends JDialog implements ChangeListener {
 
     private JPanel mainPanel, createHero, west, center, east;
+    private JScrollPane scrollPane;
     private JRadioButton warrior, mage, rogue;
     private Vector<JButton> oks;
     private JButton ok;
     private ButtonGroup group;
     private JTextField nameField;
 
+    private ArrayList<Hero> heroes;
+
     private final  int boxHeight = 155;
 
     public HeroSelection(ArrayList<Hero> heroes, JFrame window) {
         super(window, "Select a hero");
+        this.heroes = heroes;
         setSize(new Dimension(600, 600));
         setResizable(false);
 
         oks = new Vector<>();
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setPreferredSize(new Dimension(600, 600));
+
+        scrollPane = new JScrollPane(mainPanel,
+                JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,
+                JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        scrollPane.setPreferredSize(new Dimension(600, 600));
+        add(scrollPane);
 
         initHeroCreation();
 
@@ -88,30 +99,44 @@ public class HeroSelection extends JDialog implements ChangeListener {
         description.add(defence);
         oks.add(new JButton("OK"));
         oks.lastElement().setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0));
+        oks.lastElement().addChangeListener(this);
         description.add(oks.lastElement());
 
         JPanel items = new JPanel();
+        items.setPreferredSize(new Dimension(this.getWidth() / 3, this.getHeight()));
         items.setLayout(new BoxLayout(items, BoxLayout.Y_AXIS));
+        items.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (hero.getSword() != null) {
-            GUIView sword = new GUIView(60, 60, hero.getSword().getSpriteFilePath());
-            sword.setMinimumSize(new Dimension(60, 60));
-            sword.setMaximumSize(new Dimension(60, 60));
+            GUIView sword = new GUIView(30, 30, hero.getSword().getSpriteFilePath());
+            sword.setMinimumSize(new Dimension(30, 30));
+            sword.setMaximumSize(new Dimension(30, 30));
+            sword.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             items.add(sword);
+            JPanel gap = new JPanel();
+            gap.setMinimumSize(new Dimension(10, 10));
+            items.add(gap);
         }
         if (hero.getArmor() != null) {
-            GUIView armor = new GUIView(60, 60, hero.getArmor().getSpriteFilePath());
-            armor.setMinimumSize(new Dimension(60, 60));
-            armor.setMaximumSize(new Dimension(60, 60));
+            GUIView armor = new GUIView(30, 30, hero.getArmor().getSpriteFilePath());
+            armor.setMinimumSize(new Dimension(30, 30));
+            armor.setMaximumSize(new Dimension(30, 30));
+            armor.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             items.add(armor);
+            JPanel gap = new JPanel();
+            gap.setMinimumSize(new Dimension(10, 10));
+            items.add(gap);
         }
         if (hero.getShield() != null) {
-            GUIView shield = new GUIView(60, 60, hero.getShield().getSpriteFilePath());
-            shield.setMinimumSize(new Dimension(60, 60));
-            shield.setMaximumSize(new Dimension(60, 60));
+            GUIView shield = new GUIView(30, 30, hero.getShield().getSpriteFilePath());
+            shield.setMinimumSize(new Dimension(30, 30));
+            shield.setMaximumSize(new Dimension(30, 30));
+            shield.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
             items.add(shield);
+            JPanel gap = new JPanel();
+            gap.setMinimumSize(new Dimension(10, 10));
+            items.add(gap);
         }
 
-        heroView.setBorder(BorderFactory.createLineBorder(Color.BLUE, 1));
         heroView.add(description, BorderLayout.CENTER);
         heroView.add(items, BorderLayout.EAST);
         mainPanel.add(heroView);
@@ -122,7 +147,6 @@ public class HeroSelection extends JDialog implements ChangeListener {
         createHero.setPreferredSize(new Dimension(this.getWidth(), boxHeight));
         createHero.setMaximumSize(new Dimension(this.getWidth(), boxHeight));
         createHero.setLayout(new BorderLayout());
-        createHero.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
         // Top label
         JLabel createHeroLabel = new JLabel("Create New Hero");
         createHeroLabel.setFont(new Font("Arial", Font.BOLD, 15));
@@ -191,6 +215,14 @@ public class HeroSelection extends JDialog implements ChangeListener {
         } else if (aModel.isPressed() && aButton.equals(ok)) {
             if (onHeroCreation()) {
                 dispose();
+            }
+        } else {
+            for (int i = 0; i < oks.size(); i++) {
+                JButton button = oks.get(i);
+                if (button.equals(aButton) && aModel.isPressed()) {
+                    Swingy.getInstance().startLevel(heroes.get(i));
+                    dispose();
+                }
             }
         }
     }

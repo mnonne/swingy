@@ -12,11 +12,11 @@ public class Hero extends GameCharacter {
     private long experience = 0;
     private long expToNextLevel = 0;
 
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Item sword;
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Item shield;
-    @Transient
+    @OneToOne(cascade = CascadeType.ALL, optional = true)
     private Item armor;
     @Column(name = "specialization")
     private int specialization;

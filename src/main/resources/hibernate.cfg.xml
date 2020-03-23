@@ -50,5 +50,7 @@
 
         <mapping class="org.aminadzh.swingy.model.characters.GameCharacter" />
 
+        <mapping class="org.aminadzh.swingy.model.items.Item" />
+
     </session-factory>
 </hibernate-configuration>

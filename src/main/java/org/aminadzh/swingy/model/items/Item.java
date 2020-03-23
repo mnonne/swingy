@@ -1,11 +1,20 @@
 package org.aminadzh.swingy.model.items;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "items")
 public class Item {
 
+    @Id @GeneratedValue
+    @Column(name = "id")
     private int id;
+    @Column(name = "name")
     private String name;
-    private String spriteFilePath;
+    @Column(name = "bonus")
     private int bonus;
+    @Column(name = "sprite")
+    private String spriteFilePath;
 
     public Item() {
 
