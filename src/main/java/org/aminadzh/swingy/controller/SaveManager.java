@@ -1,6 +1,7 @@
 package org.aminadzh.swingy.controller;
 
 import org.aminadzh.swingy.model.characters.Hero;
+import org.aminadzh.swingy.model.items.Item;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

@@ -86,15 +86,9 @@ public class Swingy {
         window.showHeroSelectionPanel(heroes);
 
         if (heroes.size() > 0) {
-//            try {
             for (Hero h : heroes)
                 System.out.println("Hero: " + h.getName() + " id: " + h.getId());
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
         }
-
-//        hero = new Hero("Kek", "Mage", 1, 10, 3, 100);
     }
 
     public void startLevel(Hero hero) {
